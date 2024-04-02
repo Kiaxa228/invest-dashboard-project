@@ -19,6 +19,7 @@ def global_init(db_name):
 
     engine = sa.create_engine(
         f'postgresql://postgres:postgres@localhost:5432/{db_name}', echo=False)
+    Base.metadata.drop_all(engine)
 
     __factory = orm.sessionmaker(bind=engine)
 
