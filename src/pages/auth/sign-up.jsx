@@ -6,7 +6,7 @@ import {
   Typography,
 } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
 
 export function SignUp() {
@@ -31,6 +31,16 @@ export function SignUp() {
       }
     })
   }
+
+  useEffect(() => {
+
+    document.body.style.overflow = 'hidden';
+
+
+    return () => {
+      document.body.style.overflow = 'visible';
+    };
+  }, []);
 
   return (
     <section className="m-8 flex max-h-screen">
