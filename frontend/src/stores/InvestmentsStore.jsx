@@ -17,11 +17,11 @@ export class InvestmentsStore {
     restUrl = appStore.serverURL + "/api/investments"
     isLoading = false
     error = ''
-    isInitialized = false
+    isInitialized = true
 
     @action
     init() {
-        this.isLoading = true
+        //this.isLoading = true
 
         this.getInvestmentsBalance()
     }
@@ -30,7 +30,7 @@ export class InvestmentsStore {
     getInvestmentsBalance() {
         fetch(`${this.restUrl}/getBalance`)
             .then((json) => this.onLoadInvestmentsBalance(json))
-            .catch((err) => this.onError(err))
+          //  .catch((err) => this.onError(err))
     }
 
     @action.bound
