@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@babel/plugin-syntax-class-properties": "^7.12.13",
     "@heroicons/react": "2.0.18",
     "@material-tailwind/react": "^2.1.4",
     "apexcharts": "3.44.0",

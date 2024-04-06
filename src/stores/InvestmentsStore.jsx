@@ -1,17 +1,23 @@
 import {action, observable} from 'mobx'
 import appStore from "@/stores/AppStore.jsx";
+import {makeAutoObservable} from "mobx";
 
 export class InvestmentsStore {
-    @observable balance = {
+
+    constructor() {
+        makeAutoObservable(this)
+    }
+
+    balance = {
         currentBalance: 0,
         investments: 0,
         USD: 0,
         EUR: 0
     }
-    @observable restUrl = appStore.serverURL + "/api/investments"
-    @observable isLoading = false
-    @observable error = ''
-    @observable isInitialized = false
+    restUrl = appStore.serverURL + "/api/investments"
+    isLoading = false
+    error = ''
+    isInitialized = false
 
     @action
     init() {
