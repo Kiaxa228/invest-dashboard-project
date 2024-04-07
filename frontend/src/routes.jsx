@@ -5,11 +5,13 @@ import {
   InformationCircleIcon,
   ServerStackIcon,
   RectangleStackIcon,
-  Cog6ToothIcon
+  Cog6ToothIcon,
+    ChartBarIcon
 } from "@heroicons/react/24/solid";
 import { Home, Profile, Tables, Notifications } from "@/pages/dashboard";
 import { SignIn, SignUp } from "@/pages/auth";
 import SettingsData from "@/modules/settings/view/SettingsData.jsx";
+import {StockData} from "./modules/stock/view/StockData.jsx";
 
 
 const icon = {
@@ -33,11 +35,17 @@ export const routes = [
         element: <Profile />,
       },
       {
+        icon: <ChartBarIcon {...icon} />,
+        name: "Биржа",
+        path: "/stock",
+        element: <StockData />,
+      },
+      {
         icon: <Cog6ToothIcon {...icon} />,
         name: "Настройки",
         path: "/settings",
         element: <SettingsData />,
-      },
+      }
     ],
   },
   {

@@ -13,12 +13,21 @@ export default defineConfig({
             "@babel/plugin-proposal-class-properties",
             { loose: true },
           ],
-            ["@babel/plugin-syntax-class-properties"]
+            ["@babel/plugin-syntax-class-properties"],
         ],
+
       },
     })
   ],
   resolve: {
     alias: [{ find: "@", replacement: "/src" }],
   },
-});
+  optimizeDeps: {
+    esbuildOptions: {
+      loader: {
+        '.js': 'jsx',
+      },
+    },
+  }
+  }
+);

@@ -6,6 +6,7 @@ import {Observer} from "mobx-react-lite";
 import { observer} from "mobx-react-lite"
 import {makeAutoObservable} from "mobx";
 import investmentsStore from "@/stores/InvestmentsStore.jsx";
+import {StockData} from "./modules/stock/view/StockData.jsx";
 
 export const App = observer(() => {
 
@@ -29,6 +30,7 @@ export const App = observer(() => {
                                         <Fragment>
                                             <Route path="/dashboard/*" element={<Dashboard/>}/>
                                             <Route path="/auth/*" element={<Auth/>}/>
+                                            <Route path="/stock/*" element={<StockData/>}/>
                                             <Route path="*" element={<Navigate to="/dashboard/home" replace/>}/>
                                         </Fragment>
                                     }
