@@ -4,13 +4,14 @@ from fastapi import FastAPI, Depends, Request, Response
 from starlette.middleware.sessions import SessionMiddleware
 import secrets
 from controller.auth_controller import auth_router
+from controller.stock_controller import stock_router
 from fastapi.middleware.cors import CORSMiddleware
 from controller.profile_controller import profile_router
 
 app = FastAPI()
 app.add_middleware(SessionMiddleware, secret_key=secrets.token_hex(16))
 app.include_router(auth_router, prefix='/auth')
-
+app.include_router(stock_router, prefix='/stock')
 
 async def authenticate_user(request: Request):
     if 'user' not in request.session:

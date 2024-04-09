@@ -18,7 +18,7 @@ const icon = {
   className: "w-5 h-5 text-inherit",
 };
 
-export const routes = [
+  export const routes = [
   {
     layout: "dashboard",
     pages: [
@@ -31,7 +31,7 @@ export const routes = [
       {
         icon: <UserCircleIcon {...icon} />,
         name: "Профиль",
-        path: "/profile",
+        path:  "/profile",
         element: <Profile />,
       },
       {

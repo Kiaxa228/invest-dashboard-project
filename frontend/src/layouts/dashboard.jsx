@@ -10,7 +10,7 @@ import {
 import routes from "@/routes";
 import { useMaterialTailwindController, setOpenConfigurator } from "@/context";
 
-export function Dashboard() {
+export function Dashboard({children}) {
   const [controller, dispatch] = useMaterialTailwindController();
   const { sidenavType } = controller;
 
@@ -34,15 +34,16 @@ export function Dashboard() {
         >
           <Cog6ToothIcon className="h-5 w-5" />
         </IconButton>
-        <Routes>
-          {routes.map(
-            ({ layout, pages }) =>
-              layout === "dashboard" &&
-              pages.map(({ path, element }) => (
-                <Route exact path={path} element={element} />
-              ))
-          )}
-        </Routes>
+          <Routes>
+              {routes.map(
+                  ({ layout, pages }) =>
+                      layout === "dashboard" &&
+                      pages.map(({ path, element }) => (
+                          <Route exact path={path} element={element} />
+                      ))
+              )}
+          </Routes>
+          {children}
         <div className="text-blue-gray-600">
           <Footer />
         </div>
