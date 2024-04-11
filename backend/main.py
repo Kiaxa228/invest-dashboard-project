@@ -6,9 +6,6 @@ import secrets
 from controller.auth_controller import auth_router
 from fastapi.middleware.cors import CORSMiddleware
 from controller.profile_controller import profile_router
-from backend.models import db_session
-from backend.models.users import User
-from backend.models.profile import Portfolio
 
 app = FastAPI()
 app.add_middleware(SessionMiddleware, secret_key=secrets.token_hex(16))
