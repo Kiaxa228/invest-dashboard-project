@@ -1,7 +1,6 @@
-from data import db_session
-from data.users import User
-from data.portfolio import Portfolio
-from data.currencies import Currencies
+from backend.models import db_session
+from backend.models.users import User
+from backend.models.profile import Portfolio
 
 
 def main():
