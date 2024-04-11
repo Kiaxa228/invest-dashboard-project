@@ -20,7 +20,6 @@ const canvasGradient = createVerticalLinearGradient([
 class AreaChart extends React.Component {
     render() {
         const { data, type, width, ratio } = this.props;
-        console.log(data)
         return (
             <ChartCanvas ratio={ratio} width={width} height={400}
                          margin={{ left: 50, right: 50, top: 10, bottom: 30 }}

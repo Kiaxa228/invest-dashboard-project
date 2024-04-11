@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {observer} from "mobx-react-lite"
 import AreaChart from '../components/AreaChart.jsx'
-import CatalogTable from '../components/CatalogTable.jsx'
+import {TickersTable} from '../components/TickersTable.jsx'
 import {
     Typography,
     Card,
@@ -22,6 +22,8 @@ import { TypeChooser } from "react-stockcharts/src/lib/helper";
 import {StockSearch} from "../../../components/StockSearch"
 import {bgThemeStyles} from "../../../styles/styles.jsx";
 import { Dashboard, Auth } from "@/layouts";
+import stockStore from "../store/StockStore.jsx";
+
 export const StockData = observer(() => {
 
     const [curCategory, setCurCategory] = useState('акций')
@@ -43,7 +45,7 @@ export const StockData = observer(() => {
                     </ButtonGroup>
 
                     <div className="mt-3">
-                        <CatalogTable category={curCategory}/>
+                        <TickersTable tickers={stockStore.tickers} category={curCategory}/>
                     </div>
 
                     <Card className="mt-5">

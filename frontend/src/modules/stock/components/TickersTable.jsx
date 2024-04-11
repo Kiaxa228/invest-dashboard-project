@@ -20,6 +20,9 @@ import {
     Tooltip,
 } from "@material-tailwind/react";
 import CategorySelect from "./CategorySelect.jsx";
+import {observer} from "mobx-react-lite"
+import {useEffect, useState} from "react";
+import stockStore from "../store/StockStore.jsx";
 
 const TABLE_HEAD = ["Название", "Цена", "За день", "За месяц", "График"];
 
@@ -71,7 +74,32 @@ const TABLE_ROWS = [
     },
 ];
 
-export default function CatalogTable({category}) {
+export const TickersTable =  observer(({category, tickers}) => {
+
+    const [tickersCandles, setTickersCandles] = useState([])
+    const [curTickerCandle, setCurTickerCandle] = useState({})
+
+    useEffect(() => {
+        let newTickersCandles = []
+
+        for (const ticker of tickers) {
+
+            let curDate = new Date()
+            curDate.setFullYear(curDate.getFullYear() - 1)
+
+            let params = {
+                "ticker": ticker,
+                "dateFrom": curDate.getTime(),
+            }
+
+            stockStore.getTickerCandles(params, setCurTickerCandle)
+
+            console.log(curTickerCandle)
+        }
+
+        setTickersCandles(newTickersCandles)
+    }, []);
+
     return (
         <Card className="h-full w-full">
             <div className="ml-5 pt-5 rounded-none ">
@@ -113,32 +141,31 @@ export default function CatalogTable({category}) {
                     </tr>
                     </thead>
                     <tbody>
-                    {TABLE_ROWS.map(
-                        ({ img, name, email, job, org, online, date }, index) => {
+                    {Object.values(tickers).map(
+                        (el, index) => {
                             const isLast = index === TABLE_ROWS.length - 1;
                             const classes = isLast
                                 ? "p-4"
                                 : "p-4 border-b border-blue-gray-50";
-
                             return (
-                                <tr key={name}>
+                                <tr key={index}>
                                     <td className={classes}>
                                         <div className="flex items-center gap-3">
-                                            <Avatar src={img} alt={name} size="sm" />
+                                            <Avatar src={null} alt={name} size="sm" />
                                             <div className="flex flex-col">
                                                 <Typography
                                                     variant="small"
                                                     color="blue-gray"
                                                     className="font-normal"
                                                 >
-                                                    {name}
+                                                    {el}
                                                 </Typography>
                                                 <Typography
                                                     variant="small"
                                                     color="blue-gray"
                                                     className="font-normal opacity-70"
                                                 >
-                                                    {email}
+                                                    {null}
                                                 </Typography>
                                             </div>
                                         </div>
@@ -150,14 +177,14 @@ export default function CatalogTable({category}) {
                                                 color="blue-gray"
                                                 className="font-normal"
                                             >
-                                                {job}
+                                                {null}
                                             </Typography>
                                             <Typography
                                                 variant="small"
                                                 color="blue-gray"
                                                 className="font-normal opacity-70"
                                             >
-                                                {org}
+                                                {null}
                                             </Typography>
                                         </div>
                                     </td>
@@ -166,8 +193,8 @@ export default function CatalogTable({category}) {
                                             <Chip
                                                 variant="ghost"
                                                 size="sm"
-                                                value={online ? "online" : "offline"}
-                                                color={online ? "green" : "blue-gray"}
+                                                value={null ? "online" : "offline"}
+                                                color={null ? "green" : "blue-gray"}
                                             />
                                         </div>
                                     </td>
@@ -177,7 +204,7 @@ export default function CatalogTable({category}) {
                                             color="blue-gray"
                                             className="font-normal"
                                         >
-                                            {date}
+                                            {null}
                                         </Typography>
                                     </td>
                                     <td className={classes}>
@@ -209,4 +236,4 @@ export default function CatalogTable({category}) {
             </CardFooter>
         </Card>
     );
-}
+})
