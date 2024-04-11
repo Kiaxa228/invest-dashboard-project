@@ -20,6 +20,8 @@ def global_init(db_name):
     engine = sa.create_engine(
         f'postgresql://185.127.225.251:karasik_sanichka2003@'
         f'karasik_sanichka2004:5440/karasik_db', echo=False)
+    # Удалить, когда будет окончательная версия БД
+    # Эта строка очищает БД
     Base.metadata.drop_all(engine)
 
     __factory = orm.sessionmaker(bind=engine)

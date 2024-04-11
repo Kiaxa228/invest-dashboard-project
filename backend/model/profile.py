@@ -1,20 +1,20 @@
-import sqlalchemy
-from sqlalchemy import orm, Column, VARCHAR, DOUBLE, ForeignKey
+from sqlalchemy import orm, Column, VARCHAR, DOUBLE, ForeignKey, Integer
 from .db_session import Base
 
 
 class Profile(Base):
     __tablename__ = 'Profile'
 
-    profile_id = Column(VARCHAR(200), primary_key=True, nullable=False)
+    profile_id = Column(Integer, primary_key=True, nullable=False,
+                        autoincrement=True)
     username = Column(VARCHAR(200), ForeignKey('User.username'),
-                      nullable=False)
-    balance = Column(DOUBLE, default=0)
-    investment = Column(DOUBLE, default=0)
-    dollars = Column(DOUBLE, default=0)
-    euro = Column(DOUBLE, default=0)
-    yuan = Column(DOUBLE, default=0)
-    bitcoin = Column(DOUBLE, default=0)
+                      nullable=False, unique=True)
+    balance = Column(DOUBLE)
+    investment = Column(DOUBLE)
+    dollars = Column(DOUBLE)
+    euro = Column(DOUBLE)
+    yuan = Column(DOUBLE)
+    bitcoin = Column(DOUBLE)
 
     user = orm.relationship('User', back_populates='profile')
 
