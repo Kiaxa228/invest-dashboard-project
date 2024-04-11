@@ -1,20 +1,18 @@
 import sqlalchemy
-from sqlalchemy import orm
+from sqlalchemy import orm, Column, VARCHAR
 from datetime import datetime
 from .db_session import Base
 
 
 class User(Base):
-    __tablename__ = 'users'
+    __tablename__ = 'User'
 
-    id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True,
-                           autoincrement=True)
-    name = sqlalchemy.Column(sqlalchemy.String, nullable=False)
-    email = sqlalchemy.Column(sqlalchemy.String, nullable=False, unique=True)
-    hashed_password = sqlalchemy.Column(sqlalchemy.String, nullable=False)
-    created_at = sqlalchemy.Column(sqlalchemy.DateTime, default=datetime.now())
+    username = Column(VARCHAR, primary_key=True, nullable=False)
+    password = Column(VARCHAR, nullable=False)
 
-    portfolio = orm.relationship('Portfolio', back_populates='user')
+    profile = orm.relationship('Profile', back_populates='user')
 
     def __repr__(self):
-        return f'<User> {self.name} {self.email}'
+        return f'<Username {self.username}>'
+
+
