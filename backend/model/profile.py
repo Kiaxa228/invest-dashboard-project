@@ -1,23 +1,23 @@
 import sqlalchemy
-from sqlalchemy import orm
+from sqlalchemy import orm, Column, VARCHAR, DOUBLE, ForeignKey
 from .db_session import Base
 
 
-class Portfolio(Base):
-    __tablename__ = 'portfolio'
+class Profile(Base):
+    __tablename__ = 'Profile'
 
-    id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True,
-                           autoincrement=True)
-    user_id = sqlalchemy.Column(sqlalchemy.Integer,
-                                sqlalchemy.ForeignKey('users.id'))
-    currency_id = sqlalchemy.Column(sqlalchemy.Integer,
-                                    sqlalchemy.ForeignKey('currencies.id'))
-    count_of_currency = sqlalchemy.Column(sqlalchemy.Integer)
+    profile_id = Column(VARCHAR(200), primary_key=True, nullable=False)
+    username = Column(VARCHAR(200), ForeignKey('User.username'),
+                      nullable=False)
+    balance = Column(DOUBLE, default=0)
+    investment = Column(DOUBLE, default=0)
+    dollars = Column(DOUBLE, default=0)
+    euro = Column(DOUBLE, default=0)
+    yuan = Column(DOUBLE, default=0)
+    bitcoin = Column(DOUBLE, default=0)
 
-    user = orm.relationship('User', back_populates='portfolio')
-    currency = orm.relationship('Currencies',
-                                back_populates='portfolio')
+    user = orm.relationship('User', back_populates='profile')
 
     def __repr__(self):
-        return (f'<Portfolio> {self.user_id} {self.currency_id} '
-                f'{self.count_of_currency}')
+        return (f'<Profile> {self.profile_id} {self.username} {self.balance} '
+                f'{self.investment}')

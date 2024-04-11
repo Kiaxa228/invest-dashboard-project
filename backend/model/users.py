@@ -1,6 +1,4 @@
-import sqlalchemy
 from sqlalchemy import orm, Column, VARCHAR
-from datetime import datetime
 from .db_session import Base
 
 

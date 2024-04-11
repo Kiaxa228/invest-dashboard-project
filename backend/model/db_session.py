@@ -18,7 +18,8 @@ def global_init(db_name):
         raise ValueError('Name of database is empty')
 
     engine = sa.create_engine(
-        f'postgresql://postgres:postgres@localhost:5432/{db_name}', echo=False)
+        f'postgresql://185.127.225.251:karasik_sanichka2003@'
+        f'karasik_sanichka2004:5440/karasik_db', echo=False)
     Base.metadata.drop_all(engine)
 
     __factory = orm.sessionmaker(bind=engine)
