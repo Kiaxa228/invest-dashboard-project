@@ -35,7 +35,11 @@ export const App = observer(() => {
                                     <Fragment>
                                         <Route path={`/dashboard`} element={<Dashboard/>}/>
                                         <Route path={`/auth/*`} element={<Auth/>}/>
-                                        <Route path="/stock" element={<Stock/>}/>
+                                        <Route path="/stock" element={
+                                                <Dashboard>
+                                                    <Stock/>
+                                                </Dashboard>
+                                        }/>
                                         <Route path="/sign-in" element={<SignIn/>}/>
                                         <Route path="/sign-up" element={<SignUp/>}/>
                                     </Fragment>

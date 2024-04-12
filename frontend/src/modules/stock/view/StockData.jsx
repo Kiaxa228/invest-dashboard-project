@@ -34,7 +34,7 @@ export const StockData = observer(() => {
 
     return (
         <div>
-            <Dashboard>
+
                 <div className="mt-6">
                     <StockSearch/>
                     <ButtonGroup color={"yellow"} className={" mt-5 opacity-85"}>
@@ -63,7 +63,7 @@ export const StockData = observer(() => {
                         </CardBody>
                     </Card>
                 </div>
-            </Dashboard>
+
 
         </div>
     )

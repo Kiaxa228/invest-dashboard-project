@@ -40,18 +40,14 @@ export class StockStore {
             .catch((err) => this.onError(err))
     }
 
-    @action
-    getTickerCandles(params, callback) {
-        fetch(`${this.restUrl}/get-tickerCandles`, {
+    getTickerCandles = (params) => {
+        return fetch(`${this.restUrl}/get-tickerCandles`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(params)
         })
-            .then((response) => response.json())
-            .then((json) => callback(json))
-            .catch((err) => this.onError(err))
     }
 
     @action.bound

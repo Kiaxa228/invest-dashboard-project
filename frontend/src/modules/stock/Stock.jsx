@@ -18,7 +18,6 @@ export const Stock = observer(() => {
                 </div>
             }
             {
-                !stockStore.isLoading && stockStore.isInitialized &&
                 <StockData/>
             }
         </Fragment>

@@ -21,7 +21,7 @@ import {
 } from "@material-tailwind/react";
 import CategorySelect from "./CategorySelect.jsx";
 import {observer} from "mobx-react-lite"
-import {useEffect, useState} from "react";
+import {useCallback, useEffect, useMemo, useState} from "react";
 import stockStore from "../store/StockStore.jsx";
 
 const TABLE_HEAD = ["Название", "Цена", "За день", "За месяц", "График"];
@@ -77,27 +77,28 @@ const TABLE_ROWS = [
 export const TickersTable =  observer(({category, tickers}) => {
 
     const [tickersCandles, setTickersCandles] = useState([])
-    const [curTickerCandle, setCurTickerCandle] = useState({})
 
     useEffect(() => {
-        let newTickersCandles = []
+        
+        let newTickersCandles = [];
 
         for (const ticker of tickers) {
-
-            let curDate = new Date()
-            curDate.setFullYear(curDate.getFullYear() - 1)
+            let curDate = new Date();
+            curDate.setFullYear(curDate.getFullYear() - 1);
 
             let params = {
                 "ticker": ticker,
                 "dateFrom": curDate.getTime(),
-            }
+            };
 
-            stockStore.getTickerCandles(params, setCurTickerCandle)
-
-            console.log(curTickerCandle)
+            stockStore.getTickerCandles(params)
+                .then((response) => response.json())
+                .then((json) => {
+                    newTickersCandles.push(json)
+                })
         }
 
-        setTickersCandles(newTickersCandles)
+        setTickersCandles(newTickersCandles);
     }, []);
 
     return (
@@ -141,7 +142,7 @@ export const TickersTable =  observer(({category, tickers}) => {
                     </tr>
                     </thead>
                     <tbody>
-                    {Object.values(tickers).map(
+                    {tickers.map(
                         (el, index) => {
                             const isLast = index === TABLE_ROWS.length - 1;
                             const classes = isLast
@@ -158,7 +159,7 @@ export const TickersTable =  observer(({category, tickers}) => {
                                                     color="blue-gray"
                                                     className="font-normal"
                                                 >
-                                                    {el}
+                                                    {el.name}
                                                 </Typography>
                                                 <Typography
                                                     variant="small"

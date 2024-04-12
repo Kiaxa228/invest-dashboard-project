@@ -30,14 +30,9 @@ class TinkoffApi:
                                               candle_source_type=CandleSource.CANDLE_SOURCE_UNSPECIFIED)
             async for candle in candles:
                 print(candle)
+
     async def get_shares_list(self):
         async with self.client as client:
             shares = await client.instruments.shares()
 
             return shares
-
-async def main():
-    obj = TinkoffApi('t.9fxy_N36rju5XJU9hzW0iHe-mYoymkxpdFxTTuWq91OLhdrNUSWyXWnPKWvF4q8AJDaFUQwKgPoTwH1ykdh-FQ')
-    await obj.get_ticker_candle([1])
-
-asyncio.run(main())
