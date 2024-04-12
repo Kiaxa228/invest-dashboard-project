@@ -1,0 +1,248 @@
+Доступные акции на Мосбирже: 247
+ABIO iАРТГЕН ао
+ABRD АбрауДюрсо
+ACKO АСКО ао
+AFKS Система ао
+AFLT Аэрофлот
+AGRO AGRO-гдр
+AKRN Акрон
+ALRS АЛРОСА ао
+AMEZ АшинскийМЗ
+APTK Аптеки36и6
+AQUA ИНАРКТИКА
+ARSA Арсагера
+ASSB АстрЭнСб
+ASTR Астра ао
+AVAN Авангрд-ао
+BANE Башнефт ао
+BANEP Башнефт ап
+BELU НоваБев ао
+BISVP БашИнСв ап
+BLNG Белон ао
+BRZL БурЗолото
+BSPB БСП ао
+BSPBP БСП ап
+CARM СТГ
+CBOM МКБ ао
+CHGZ РН-ЗапСиб
+CHKZ ЧКПЗ ао
+CHMF СевСт-ао
+CHMK ЧМК ао
+CIAN CIAN-адр
+CNTL Телеграф
+CNTLP Телеграф-п
+DELI Каршеринг
+DIAS Диасофт
+DIOD ЗаводДИОД
+DVEC ДЭК ао
+DZRD ДонскЗР
+DZRDP ДонскЗР п
+EELT ЕвроЭлтех
+ELFV ЭЛ5Энер ао
+ENPG ЭН+ГРУП ао
+ETLN ETLN-гдр
+EUTR ЕвроТранс
+FEES Россети
+FESH ДВМП ао
+FIVE FIVE-гдр
+FIXP FIXP-гдр
+FLOT Совкомфлот
+GAZC ГАЗКОН-ао
+GAZP ГАЗПРОМ ао
+GAZS ГАЗ-сервис
+GAZT ГАЗ-Тек ао
+GCHE ЧеркизГ-ао
+GECO iГЕНЕТИКО
+GEMA iММЦБ ао
+GEMC МКПАО ЮМГ
+GLTR GLTR-гдр
+GMKN ГМКНорНик
+GTRK ГТМ ао
+HHRU iHHRU-адр
+HIMCP Химпром ап
+HNFG ХЭНДЕРСОН
+HYDR РусГидро
+IGST Ижсталь2ао
+IGSTP Ижсталь ап
+INGR ИНГРАД ао
+IRAO ИнтерРАОао
+IRKT Яковлев-3
+JNOS Славн-ЯНОС
+JNOSP Слав-ЯНОСп
+KAZT Куйбазот
+KAZTP Куйбазот-п
+KBSB ТНСэКубань
+KCHE КамчатЭ ао
+KCHEP КамчатЭ ап
+KGKC КурганГКао
+KGKCP КурганГКап
+KLSB КалужскСК
+KLVZ Кристалл
+KMAZ КАМАЗ
+KMEZ КМЗ
+KOGK КоршГОК ао
+KRKN СаратНПЗ
+KRKNP СаратНПЗ-п
+KRKOP ТКЗКК ап
+KROT КрасОкт-ао
+KROTP КрасОкт-1п
+KRSB Красэсб ао
+KRSBP Красэсб ап
+KUBE РСетКубань
+KUZB КузнецкийБ
+KZOS ОргСинт ао
+KZOSP ОргСинт ап
+LEAS Европлан
+LENT Лента ао
+LKOH ЛУКОЙЛ
+LNZL Лензолото
+LNZLP Лензол. ап
+LSNG РСетиЛЭ
+LSNGP РСетиЛЭ-п
+LSRG ЛСР ао
+LVHK Левенгук
+MAGE МагадЭн ао
+MAGEP МагадЭн ап
+MAGN ММК
+MDMG MDMG-гдр
+MFGS Мегион-ао
+MFGSP Мегион-ап
+MGKL МГКЛ
+MGNT Магнит ао
+MGNZ СМЗ-ао
+MGTS МГТС-5ао
+MGTSP МГТС-4ап
+MISB ТНСэнМарЭл
+MISBP ТНСэМаЭл-п
+MOEX МосБиржа
+MRKC РоссЦентр
+MRKK Россети СК
+MRKP РСетиЦП ао
+MRKS РсетСиб ао
+MRKU Россети Ур
+MRKV РсетВол ао
+MRKY РоссЮг ао
+MRKZ РСетиСЗ ао
+MRSB МордЭнСб
+MSNG +МосЭнерго
+MSRS РСетиМР ао
+MSTT Мостотрест
+MTLR Мечел ао
+MTLRP Мечел ап
+MTSS МТС-ао
+MVID М.видео
+NAUK iНПОНаука
+NFAZ НЕФАЗ
+NKHP НКХП ао
+NKNC НКНХ ао
+NKNCP НКНХ ап
+NKSH Нижкамшина
+NLMK НЛМК ао
+NMTP НМТП ао
+NNSB ТНСэнНН ао
+NNSBP ТНСэнНН ап
+NSVZ iНаукаСвяз
+NVTK Новатэк ао
+OGKB ОГК-2 ао
+OKEY OKEY-гдр
+OMZZP ОМЗ-ап
+OZON OZON-адр
+PHOR ФосАгро ао
+PIKK ПИК ао
+PLZL Полюс
+PMSB ПермьЭнСб
+PMSBP ПермьЭнС-п
+POLY Polymetal
+POSI iПозитив
+PRFN ЧЗПСН ао
+PRMB Приморье
+QIWI iQIWI
+RASP Распадская
+RBCM ГК РБК ао
+RDRB РДБанк ао
+RENI Ренессанс
+RGSS РГС СК ао
+RKKE ЭнергияРКК
+RNFT РуссНфт ао
+ROLO Русолово
+ROSB Росбанк ао
+ROSN Роснефть
+ROST РОСИНТЕРао
+RTGZ ГазпРнД ао
+RTKM Ростел -ао
+RTKMP Ростел -ап
+RTSB ТНСэнРст
+RTSBP ТНСэнРст-п
+RUAL РУСАЛ ао
+RUSI ИКРУСС-ИНВ
+RZSB РязЭнСб
+SAGO СамарЭн-ао
+SAGOP СамарЭн-ап
+SARE СаратЭн-ао
+SAREP СаратЭн-ап
+SBER Сбербанк
+SBERP Сбербанк-п
+SELG Селигдар
+SFIN ЭсЭфАй ао
+SGZH Сегежа
+SIBN Газпрнефть
+SLEN Сахэнер ао
+SMLT Самолет ао
+SNGS Сургнфгз
+SNGSP Сургнфгз-п
+SOFL iСофтлайн
+SPBE СПБ Биржа
+STSB СтаврЭнСб
+STSBP СтаврЭнСбп
+SVAV СОЛЛЕРС
+SVCB Совкомбанк
+SVET Светофор
+TASB ТамбЭнСб
+TASBP ТамбЭнСб-п
+TATN Татнфт 3ао
+TATNP Татнфт 3ап
+TCSG ТКСХолд ао
+TGKA ТГК-1
+TGKB ТГК-2
+TGKBP ТГК-2 ап
+TGKN ТГК-14
+TNSE ТНСэнрг ао
+TORS ТРК ао
+TORSP ТРК ап
+TRMK ТМК ао
+TRNFP Транснф ап
+TTLK Таттел. ао
+TUZA ТЗА ао
+UGLD ЮГК
+UKUZ ЮжКузб. ао
+UNAC iАвиастКао
+UNKL ЮУНК ао
+UPRO Юнипро ао
+URKZ УрКузница
+USBN УралСиб ао
+UTAR ЮТэйр ао
+VEON-RX VEON
+VGSB ВолгЭнСб
+VGSBP ВолгЭнСб-п
+VJGZ Варьеган
+VJGZP Варьеган-п
+VKCO МКПАО "ВК"
+VLHZ ВХЗ-ао
+VRSB ТНСэнВорон
+VRSBP ТНСэнВор-п
+VSMO ВСМПО-АВСМ
+VSYD ВыбСудЗ ао
+VSYDP ВыбСудЗ ап
+VTBR ВТБ ао
+WTCM ЦМТ ао
+WTCMP ЦМТ ап
+WUSH iВУШХолднг
+YAKG ЯТЭК ао
+YKEN Якутскэнрг
+YKENP Якутскэн-п
+YNDX Yandex clA
+YRSB ТНСэнЯр
+YRSBP ТНСэнЯр-п
+ZAYM Займер ао
+ZILL ЗИЛ ао
+ZVEZ ЗВЕЗДА ао
