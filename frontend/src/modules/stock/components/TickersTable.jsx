@@ -77,9 +77,11 @@ const TABLE_ROWS = [
 export const TickersTable =  observer(({category, tickers}) => {
 
     const [tickersCandles, setTickersCandles] = useState([])
+    const [tickersLastPrices, setTickersLastPrices] = useState([0] * 5000)
 
     useEffect(() => {
-        
+        getTickersLastPrices()
+
         let newTickersCandles = [];
 
         for (const ticker of tickers) {
@@ -99,7 +101,32 @@ export const TickersTable =  observer(({category, tickers}) => {
         }
 
         setTickersCandles(newTickersCandles);
-    }, []);
+    }, [tickers]);
+
+    const getTickersLastPrices = () => {
+        stockStore.getLastPrice({'figi': tickers.map((el) => el.figi)})
+            .then((response) => response.json())
+            .then((json) => {
+                const obj = JSON.parse(json)
+                setTickersLastPrices(obj.prices)
+            })
+    }
+
+    const onNextPageClick = () => {
+        if (stockStore.tickersFilterValues.PAGE === stockStore.tickersFilterValues.LAST_PAGE_NUMBER) {
+            return
+        }
+        stockStore.tickersFilterValues.PAGE += 1
+        stockStore.getTickers()
+    }
+
+    const onPrevPageClick = () => {
+        if (stockStore.tickersFilterValues.PAGE === 1) {
+            return
+        }
+        stockStore.tickersFilterValues.PAGE -= 1
+        stockStore.getTickers()
+    }
 
     return (
         <Card className="h-full w-full">
@@ -118,7 +145,7 @@ export const TickersTable =  observer(({category, tickers}) => {
                     <CategorySelect label={"Отрасль"}/>
                 </div>
             </div>
-            <CardBody className="overflow-scroll px-0">
+            <CardBody className="overflow-hidden px-0">
                 <table className="mt-4 w-full min-w-max table-auto text-left">
                     <thead>
                     <tr>
@@ -148,28 +175,19 @@ export const TickersTable =  observer(({category, tickers}) => {
                             const classes = isLast
                                 ? "p-4"
                                 : "p-4 border-b border-blue-gray-50";
+
                             return (
                                 <tr key={index}>
                                     <td className={classes}>
-                                        <div className="flex items-center gap-3">
-                                            <Avatar src={null} alt={name} size="sm" />
-                                            <div className="flex flex-col">
-                                                <Typography
-                                                    variant="small"
-                                                    color="blue-gray"
-                                                    className="font-normal"
-                                                >
-                                                    {el.name}
-                                                </Typography>
-                                                <Typography
-                                                    variant="small"
-                                                    color="blue-gray"
-                                                    className="font-normal opacity-70"
-                                                >
-                                                    {null}
-                                                </Typography>
+                                            <div className="flex items-center gap-4">
+                                                <Avatar
+                                                    src={`https://invest-brands.cdn-tinkoff.ru/${el.logoName.replace('.png', '')}x160.png`}
+                                                    alt={'avatar'} size="md"/>
+                                                <div>
+                                                    <Typography variant="h6" color={'black'}>{el.name}</Typography>
+                                                    <Typography variant="small" color="gray" className="font-normal">{el.ticker}</Typography>
+                                                </div>
                                             </div>
-                                        </div>
                                     </td>
                                     <td className={classes}>
                                         <div className="flex flex-col">
@@ -178,14 +196,7 @@ export const TickersTable =  observer(({category, tickers}) => {
                                                 color="blue-gray"
                                                 className="font-normal"
                                             >
-                                                {null}
-                                            </Typography>
-                                            <Typography
-                                                variant="small"
-                                                color="blue-gray"
-                                                className="font-normal opacity-70"
-                                            >
-                                                {null}
+                                                {tickersLastPrices[index]}
                                             </Typography>
                                         </div>
                                     </td>
@@ -227,10 +238,10 @@ export const TickersTable =  observer(({category, tickers}) => {
                     Page 1 of 10
                 </Typography>
                 <div className="flex gap-2">
-                    <Button variant="outlined" size="sm">
+                    <Button variant="outlined" size="sm" onClick={onPrevPageClick}>
                         Previous
                     </Button>
-                    <Button variant="outlined" size="sm">
+                    <Button variant="outlined" size="sm" onClick={onNextPageClick}>
                         Next
                     </Button>
                 </div>

@@ -21,7 +21,7 @@ import {
 import { TypeChooser } from "react-stockcharts/src/lib/helper";
 import {StockSearch} from "../../../components/StockSearch"
 import {bgThemeStyles} from "../../../styles/styles.jsx";
-import { Dashboard, Auth } from "@/layouts";
+import { SiteFraming, Auth } from "@/layouts";
 import stockStore from "../store/StockStore.jsx";
 
 export const StockData = observer(() => {

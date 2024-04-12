@@ -36,3 +36,9 @@ class TinkoffApi:
             shares = await client.instruments.shares()
 
             return shares
+
+    async def get_last_price(self, params):
+        async with self.client as client:
+            last_price = await client.market_data.get_last_prices(figi=params.figi)
+
+            return last_price

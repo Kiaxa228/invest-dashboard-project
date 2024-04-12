@@ -12,7 +12,8 @@ export class StockStore {
 
     tickersFilterValues = {
         "ITEMS_ON_PAGE": 15,
-        "PAGE": 1
+        "PAGE": 1,
+        "LAST_PAGE_NUMBER": 1,
     }
 
     constructor() {
@@ -36,7 +37,7 @@ export class StockStore {
             body: JSON.stringify(this.tickersFilterValues)
         })
             .then((response) => response.json())
-            .then((json) => this.onLoadTickers(json))
+            .then((json) => this.onLoadTickers(JSON.parse(json)))
             .catch((err) => this.onError(err))
     }
 
@@ -50,10 +51,21 @@ export class StockStore {
         })
     }
 
+    getLastPrice = (params) => {
+        return fetch(`${this.restUrl}/get-lastTickerPrice`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(params)
+        })
+    }
+
     @action.bound
     onLoadTickers(json) {
-        this.tickers = JSON.parse(json)
+        this.tickers = json.list
         this.isLoading = false
+        this.tickersFilterValues.LAST_PAGE_NUMBER = json.last_page_number
         this.isInitialized = true
     }
 
