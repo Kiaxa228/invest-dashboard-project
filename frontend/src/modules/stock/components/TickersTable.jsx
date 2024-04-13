@@ -25,7 +25,7 @@ import {useCallback, useEffect, useMemo, useState} from "react";
 import stockStore from "../store/StockStore.jsx";
 import getSymbolFromCurrency from 'currency-symbol-map'
 
-const TABLE_HEAD = ["Название", "Цена", "За день", "За месяц", "График"];
+const TABLE_HEAD = ["Название", "Цена", "За день", "За год", "График"];
 
 const TABLE_ROWS = [
     {
@@ -87,8 +87,13 @@ export const TickersTable =  observer(({category, tickers}) => {
     const [tickersLastPrices, setTickersLastPrices] = useState([0] * 5000)
 
     useEffect(() => {
-        getTickersLastPrices()
+        if (tickers.length > 0) {
+            getTickersLastPrices()
+            getTickersCandles()
+        }
+    }, [tickers]);
 
+    const getTickersCandles = () => {
         let newTickersCandles = Array(5000).fill({
             candles: [],
             growPerDayAmount: 0,
@@ -111,11 +116,10 @@ export const TickersTable =  observer(({category, tickers}) => {
                 .then((json) => {
                     const obj = JSON.parse(json)
                     newTickersCandles[i] = obj
+                    setTickersCandles(newTickersCandles);
                 })
         }
-
-        setTickersCandles(newTickersCandles);
-    }, [tickers]);
+    }
 
     const getTickersLastPrices = () => {
         stockStore.getLastPrice({'figi': tickers.map((el) => el.figi)})
@@ -142,6 +146,29 @@ export const TickersTable =  observer(({category, tickers}) => {
         stockStore.getTickers()
     }
 
+    const getChipsForGrowth = (firstValue, secondValue, currency) => {
+        firstValue = firstValue.toFixed(2)
+        secondValue = secondValue.toFixed(2)
+        let color = ""
+        if (firstValue > 0) {
+            color = "green"
+            firstValue = '+' + firstValue
+            secondValue = '+' + secondValue
+        } else if (firstValue < 0) {
+            color = "red"
+
+        }
+        return <div className="w-max flex flex-col gap-2">
+            <Chip
+                value={firstValue + ' ' + currency}
+                color={color}
+                variant={"ghost"}/>
+            <Chip
+                value={secondValue + " %"}
+                color={color}
+                variant={"ghost"}/>
+        </div>
+    }
     return (
         <Card className="h-full w-full">
             <div className="ml-5 pt-5 rounded-none ">
@@ -190,7 +217,7 @@ export const TickersTable =  observer(({category, tickers}) => {
                                 ? "p-4"
                                 : "p-4 border-b border-blue-gray-50";
 
-                            console.log(tickersCandles)
+
 
                             return (
                                 <tr key={index}>
@@ -216,22 +243,10 @@ export const TickersTable =  observer(({category, tickers}) => {
                                         </div>
                                     </td>
                                     <td className={classes}>
-                                        <div className="w-max">
-                                           <Typography>
-                                               {tickersCandles[index].growPerDayAmount}
-                                           </Typography>
-                                            <Typography>
-                                                {tickersCandles[index].growPerDayPercent}
-                                            </Typography>
-                                        </div>
+                                            {getChipsForGrowth(tickersCandles[index].growPerDayAmount, tickersCandles[index].growPerDayPercent, getSymbolFromCurrency(el.currency))}
                                     </td>
                                     <td className={classes}>
-                                        <Typography>
-                                            {tickersCandles[index].growPerYear}
-                                        </Typography>
-                                        <Typography>
-                                            {tickersCandles[index].growPerYearPercent}
-                                        </Typography>
+                                        {getChipsForGrowth(tickersCandles[index].growPerYear, tickersCandles[index].growPerYearPercent, getSymbolFromCurrency(el.currency))}
                                     </td>
                                     <td className={classes}>
                                         <Tooltip content="Edit User">
