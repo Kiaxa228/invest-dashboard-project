@@ -28,20 +28,22 @@ export const StockData = observer(() => {
 
     const [curCategory, setCurCategory] = useState('акций')
 
-    const onCategoryClick = (name) => {
+    const onCategoryClick = (name, category) => {
+        stockStore.tickersFilterValues.CATEGORY = category
         setCurCategory(name)
+        stockStore.getTickers()
     }
 
     return (
         <div>
 
                 <div className="mt-6">
-                    <StockSearch/>
+                    <StockSearch tickers={stockStore.tickers}/>
                     <ButtonGroup color={"yellow"} className={" mt-5 opacity-85"}>
-                        <Button onClick={() => onCategoryClick('акций')}>Акции</Button>
-                        <Button onClick={() => onCategoryClick('валют')}>Валюта</Button>
-                        <Button onClick={() => onCategoryClick('фондов')}>Фонды</Button>
-                        <Button onClick={() => onCategoryClick('облигаций')}>Облигации</Button>
+                        <Button onClick={() => onCategoryClick('акций', 0)}>Акции</Button>
+                        <Button onClick={() => onCategoryClick('валют', 1)}>Валюта</Button>
+                        <Button onClick={() => onCategoryClick('фондов', 2)}>Фонды</Button>
+                        <Button onClick={() => onCategoryClick('облигаций', 3)}>Облигации</Button>
                     </ButtonGroup>
 
                     <div className="mt-3">

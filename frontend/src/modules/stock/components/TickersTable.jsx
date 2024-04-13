@@ -23,6 +23,7 @@ import CategorySelect from "./CategorySelect.jsx";
 import {observer} from "mobx-react-lite"
 import {useCallback, useEffect, useMemo, useState} from "react";
 import stockStore from "../store/StockStore.jsx";
+import getSymbolFromCurrency from 'currency-symbol-map'
 
 const TABLE_HEAD = ["Название", "Цена", "За день", "За месяц", "График"];
 
@@ -76,27 +77,40 @@ const TABLE_ROWS = [
 
 export const TickersTable =  observer(({category, tickers}) => {
 
-    const [tickersCandles, setTickersCandles] = useState([])
+    const [tickersCandles, setTickersCandles] = useState(Array(5000).fill({
+        candles: [],
+        growPerDayAmount: 0,
+        growPerDayPercent: 0,
+        growPerYear: 0,
+        growPerYearPercent: 0
+    }))
     const [tickersLastPrices, setTickersLastPrices] = useState([0] * 5000)
 
     useEffect(() => {
         getTickersLastPrices()
 
-        let newTickersCandles = [];
+        let newTickersCandles = Array(5000).fill({
+            candles: [],
+            growPerDayAmount: 0,
+            growPerDayPercent: 0,
+            growPerYear: 0,
+            growPerYearPercent: 0
+        })
 
-        for (const ticker of tickers) {
-            let curDate = new Date();
-            curDate.setFullYear(curDate.getFullYear() - 1);
+        for (let i = 0; i < tickers.length; i++) {
 
             let params = {
-                "ticker": ticker,
-                "dateFrom": curDate.getTime(),
+                "uid": tickers[i].uid,
+                "timeType": 'y',
+                "timeAmount": 1,
+                "interval": 5
             };
 
             stockStore.getTickerCandles(params)
                 .then((response) => response.json())
                 .then((json) => {
-                    newTickersCandles.push(json)
+                    const obj = JSON.parse(json)
+                    newTickersCandles[i] = obj
                 })
         }
 
@@ -176,6 +190,8 @@ export const TickersTable =  observer(({category, tickers}) => {
                                 ? "p-4"
                                 : "p-4 border-b border-blue-gray-50";
 
+                            console.log(tickersCandles)
+
                             return (
                                 <tr key={index}>
                                     <td className={classes}>
@@ -192,31 +208,29 @@ export const TickersTable =  observer(({category, tickers}) => {
                                     <td className={classes}>
                                         <div className="flex flex-col">
                                             <Typography
-                                                variant="small"
+                                                variant="h6"
                                                 color="blue-gray"
-                                                className="font-normal"
                                             >
-                                                {tickersLastPrices[index]}
+                                                {tickersLastPrices[index] + ' ' + getSymbolFromCurrency(el.currency)}
                                             </Typography>
                                         </div>
                                     </td>
                                     <td className={classes}>
                                         <div className="w-max">
-                                            <Chip
-                                                variant="ghost"
-                                                size="sm"
-                                                value={null ? "online" : "offline"}
-                                                color={null ? "green" : "blue-gray"}
-                                            />
+                                           <Typography>
+                                               {tickersCandles[index].growPerDayAmount}
+                                           </Typography>
+                                            <Typography>
+                                                {tickersCandles[index].growPerDayPercent}
+                                            </Typography>
                                         </div>
                                     </td>
                                     <td className={classes}>
-                                        <Typography
-                                            variant="small"
-                                            color="blue-gray"
-                                            className="font-normal"
-                                        >
-                                            {null}
+                                        <Typography>
+                                            {tickersCandles[index].growPerYear}
+                                        </Typography>
+                                        <Typography>
+                                            {tickersCandles[index].growPerYearPercent}
                                         </Typography>
                                     </td>
                                     <td className={classes}>

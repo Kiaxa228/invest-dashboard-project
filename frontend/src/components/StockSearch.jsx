@@ -1,4 +1,4 @@
-import { Select, Option } from "@material-tailwind/react";
+import { Select, Option, Input } from "@material-tailwind/react";
 import {useMaterialTailwindController} from "../context/index.jsx";
 import {bgThemeStyles} from "../styles/styles.jsx";
 import {
@@ -11,54 +11,51 @@ import {
 import {
     MagnifyingGlassIcon
 } from "@heroicons/react/24/solid";
-import {useState} from "react";
+import {useRef, useState} from "react";
+import {observer} from "mobx-react-lite";
+import stockStore from "../modules/stock/store/StockStore.jsx";
 
-
-export const StockSearch = () => {
+export const StockSearch = observer(({tickers}) => {
 
     const [controller, dispatch] = useMaterialTailwindController();
     const { sidenavColor, sidenavType, openSidenav, textColor } = controller;
-    const [hideSelectLabel, setHideSelectLabel] = useState(false)
-    const handleSelectClick = () => {
-        const label = document.querySelector("#label");
-        if (label) {
-            if (!hideSelectLabel) {
-                label.style.display = "none";
-                setHideSelectLabel(true)
-            } else {
-                label.style.display = "";
-                setHideSelectLabel(false)
-            }
-        }
-    }
+    const [inputValue, setInputValue] = useState('')
+    const timerIdRef = useRef(null);
 
+    const onInputChange = (event) => {
+
+        const { value } = event.target;
+
+        setInputValue(value)
+
+        if (timerIdRef.current) {
+            clearTimeout(timerIdRef.current)
+        }
+
+        timerIdRef.current = setTimeout(() => {
+            stockStore.tickersFilterValues.TICKER_NAME = value
+            stockStore.getTickers()
+        }, 350)
+    }
 
     return (
         <div className="w-full">
             <Card>
                 <CardBody className={bgThemeStyles.dark + " rounded-lg"}>
-                    <Select
+                    <Input
+                        className={"text-white "}
                         label={"Поиск"}
-                        labelProps={{
-                            id: "label",
-                            style: { color: "white" },
-                        }}
-                        menuProps={{
-                            className: bgThemeStyles.dark + " rounder-lg text-white",
-                        }}
+                        value={inputValue}
+                        onChange={onInputChange}
+                        type={"search"}
                         color={"yellow"}
-                        className={"border-yellow-500 border-2 text-white"}
-                        onClick={handleSelectClick}
-                    >
-                        <Option>Material Tailwind HTML</Option>
-                        <Option>Material Tailwind React</Option>
-                        <Option>Material Tailwind Vue</Option>
-                        <Option>Material Tailwind Angular</Option>
-                        <Option>Material Tailwind Svelte</Option>
-                    </Select>
+                        labelProps={{
+                            style: { color: "white" },
+                        }}>
+                    </Input>
                 </CardBody>
             </Card>
         </div>
     );
-}
+})
 

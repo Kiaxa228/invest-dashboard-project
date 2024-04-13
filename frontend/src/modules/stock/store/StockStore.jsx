@@ -14,6 +14,8 @@ export class StockStore {
         "ITEMS_ON_PAGE": 15,
         "PAGE": 1,
         "LAST_PAGE_NUMBER": 1,
+        "TICKER_NAME": "",
+        "CATEGORY": 0
     }
 
     constructor() {
