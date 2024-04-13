@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {observer} from "mobx-react-lite"
-import AreaChart from '../components/AreaChart.jsx'
+
 import {TickersTable} from '../components/TickersTable.jsx'
 import {
     Typography,
@@ -18,7 +18,7 @@ import {
     Button,
     ButtonGroup
 } from "@material-tailwind/react";
-import { TypeChooser } from "react-stockcharts/src/lib/helper";
+
 import {StockSearch} from "../../../components/StockSearch"
 import {bgThemeStyles} from "../../../styles/styles.jsx";
 import { SiteFraming, Auth } from "@/layouts";
@@ -52,16 +52,7 @@ export const StockData = observer(() => {
 
                     <Card className="mt-5">
                         <CardBody className={bgThemeStyles.dark + " rounded-lg "}>
-                            <AreaChart data={[
-                                {
-                                    date: new Date('2010-01-04'),
-                                    close: 5743.25
-                                },
-                                {
-                                    date: new Date('2010-01-05'),
-                                    close: 5745.25
-                                }
-                            ]} ratio={1} width={600}/>
+
                         </CardBody>
                     </Card>
                 </div>
