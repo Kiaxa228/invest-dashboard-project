@@ -14,6 +14,7 @@ import SignIn from"./pages/auth/sign-in.jsx"
 import SignUp from"./pages/auth/sign-up.jsx"
 import SiteFraming from "./layouts/SiteFraming.jsx";
 import {Home} from  "@/pages/dashboard"
+import {TickerData} from "./modules/stock/view/TickerData.jsx"
 
 export const App = observer(() => {
 
@@ -46,6 +47,11 @@ export const App = observer(() => {
                                                 <SiteFraming>
                                                     <Stock/>
                                                 </SiteFraming>
+                                        }/>
+                                        <Route path="/stock/*" element={
+                                            <SiteFraming>
+                                                <TickerData/>
+                                            </SiteFraming>
                                         }/>
                                         <Route path="/sign-in" element={<SignIn/>}/>
                                         <Route path="/sign-up" element={<SignUp/>}/>

@@ -19,7 +19,7 @@ import {
     ButtonGroup
 } from "@material-tailwind/react";
 
-import {StockSearch} from "../../../components/StockSearch"
+import {StockSearch} from "../components/StockSearch.jsx"
 import {bgThemeStyles} from "../../../styles/styles.jsx";
 import { SiteFraming, Auth } from "@/layouts";
 import stockStore from "../store/StockStore.jsx";
@@ -36,7 +36,6 @@ export const StockData = observer(() => {
 
     return (
         <div>
-
                 <div className="mt-6">
                     <StockSearch tickers={stockStore.tickers}/>
                     <ButtonGroup color={"yellow"} className={" mt-5 opacity-85"}>

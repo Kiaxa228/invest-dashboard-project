@@ -23,7 +23,11 @@ import CategorySelect from "./CategorySelect.jsx";
 import {observer} from "mobx-react-lite"
 import {useCallback, useEffect, useMemo, useState} from "react";
 import stockStore from "../store/StockStore.jsx";
+import {LoadingSpinner} from "../../../components/LoadingSpinner.jsx"
 import getSymbolFromCurrency from 'currency-symbol-map'
+import {ChartForTable} from "./ChartForTable.jsx";
+import appStore from "../../../stores/AppStore.jsx";
+
 
 const TABLE_HEAD = ["Название", "Цена", "За день", "За год", "График"];
 
@@ -90,35 +94,35 @@ export const TickersTable =  observer(({category, tickers}) => {
         if (tickers.length > 0) {
             getTickersLastPrices()
             getTickersCandles()
+        } else {
+            stockStore.isLoading = false
         }
     }, [tickers]);
 
-    const getTickersCandles = () => {
-        let newTickersCandles = Array(5000).fill({
-            candles: [],
-            growPerDayAmount: 0,
-            growPerDayPercent: 0,
-            growPerYear: 0,
-            growPerYearPercent: 0
-        })
+    const getTickersCandles = async () => {
+        stockStore.isLoading = true
 
-        for (let i = 0; i < tickers.length; i++) {
-
+        const tickersCandles = await Promise.all(tickers.map(async(ticker) => {
             let params = {
-                "uid": tickers[i].uid,
+                "uid": ticker.uid,
                 "timeType": 'y',
                 "timeAmount": 1,
                 "interval": 5
             };
 
-            stockStore.getTickerCandles(params)
-                .then((response) => response.json())
-                .then((json) => {
-                    const obj = JSON.parse(json)
-                    newTickersCandles[i] = obj
-                    setTickersCandles(newTickersCandles);
-                })
-        }
+            const response = await stockStore.getTickerCandles(params)
+
+            const json = await response.json()
+
+            const obj = JSON.parse(json)
+
+            return obj
+        }))
+
+
+        setTickersCandles(tickersCandles)
+
+        stockStore.isLoading = false
     }
 
     const getTickersLastPrices = () => {
@@ -144,6 +148,10 @@ export const TickersTable =  observer(({category, tickers}) => {
         }
         stockStore.tickersFilterValues.PAGE -= 1
         stockStore.getTickers()
+    }
+
+    const onTableRowClick = (index) => {
+        document.location.href = appStore.structureURL + `/stock/${tickers[index].ticker}`
     }
 
     const getChipsForGrowth = (firstValue, secondValue, currency) => {
@@ -210,17 +218,16 @@ export const TickersTable =  observer(({category, tickers}) => {
                     </tr>
                     </thead>
                     <tbody>
-                    {tickers.map(
+                    {
+                        stockStore.isLoading || !tickers ? <LoadingSpinner/> : tickers.map(
                         (el, index) => {
                             const isLast = index === TABLE_ROWS.length - 1;
                             const classes = isLast
                                 ? "p-4"
                                 : "p-4 border-b border-blue-gray-50";
 
-
-
                             return (
-                                <tr key={index}>
+                                <tr key={index} className="hover:bg-blue-gray-50" onClick={() => onTableRowClick(index)}>
                                     <td className={classes}>
                                             <div className="flex items-center gap-4">
                                                 <Avatar
@@ -243,17 +250,15 @@ export const TickersTable =  observer(({category, tickers}) => {
                                         </div>
                                     </td>
                                     <td className={classes}>
-                                            {getChipsForGrowth(tickersCandles[index].growPerDayAmount, tickersCandles[index].growPerDayPercent, getSymbolFromCurrency(el.currency))}
+                                            {tickersCandles[index].growPerDayAmount !== undefined && tickersCandles[index].growPerDayPercent !== undefined ? getChipsForGrowth(tickersCandles[index].growPerDayAmount, tickersCandles[index].growPerDayPercent, getSymbolFromCurrency(el.currency)) : null}
                                     </td>
                                     <td className={classes}>
-                                        {getChipsForGrowth(tickersCandles[index].growPerYear, tickersCandles[index].growPerYearPercent, getSymbolFromCurrency(el.currency))}
+                                        {tickersCandles[index].growPerYear !== undefined && tickersCandles[index].growPerYearPercent !== undefined ? getChipsForGrowth(tickersCandles[index].growPerYear, tickersCandles[index].growPerYearPercent, getSymbolFromCurrency(el.currency)) : null}
                                     </td>
-                                    <td className={classes}>
-                                        <Tooltip content="Edit User">
-                                            <IconButton variant="text">
-                                                <PencilIcon className="h-4 w-4" />
-                                            </IconButton>
-                                        </Tooltip>
+                                    <td className={classes + " w-1/6 h-1/6"}>
+                                        <ChartForTable chartData={tickersCandles[index].candles}
+                                                       currency={getSymbolFromCurrency(el.currency)}
+                                                       color={tickersCandles[index].growPerYear > 0 ? "#28a745" : "#dc3545"}/>
                                     </td>
                                 </tr>
                             );

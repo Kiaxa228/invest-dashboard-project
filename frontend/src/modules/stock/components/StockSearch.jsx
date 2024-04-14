@@ -1,6 +1,6 @@
 import { Select, Option, Input } from "@material-tailwind/react";
-import {useMaterialTailwindController} from "../context/index.jsx";
-import {bgThemeStyles} from "../styles/styles.jsx";
+import {useMaterialTailwindController} from "../../../context/index.jsx";
+import {bgThemeStyles} from "../../../styles/styles.jsx";
 import {
     Card,
     CardHeader,
@@ -13,7 +13,7 @@ import {
 } from "@heroicons/react/24/solid";
 import {useRef, useState} from "react";
 import {observer} from "mobx-react-lite";
-import stockStore from "../modules/stock/store/StockStore.jsx";
+import stockStore from "../store/StockStore.jsx";
 
 export const StockSearch = observer(({tickers}) => {
 
@@ -24,6 +24,7 @@ export const StockSearch = observer(({tickers}) => {
 
     const onInputChange = (event) => {
 
+        stockStore.isLoading = true
         const { value } = event.target;
 
         setInputValue(value)

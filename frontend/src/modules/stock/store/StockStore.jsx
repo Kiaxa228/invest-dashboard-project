@@ -31,6 +31,7 @@ export class StockStore {
 
     @action
     getTickers() {
+        this.isLoading = true
         fetch(`${this.restUrl}/get-tickers`, {
             method: "POST",
             headers: {
@@ -44,6 +45,7 @@ export class StockStore {
     }
 
     getTickerCandles = (params) => {
+        this.isLoading = true
         return fetch(`${this.restUrl}/get-tickerCandles`, {
             method: "POST",
             headers: {
@@ -54,6 +56,7 @@ export class StockStore {
     }
 
     getLastPrice = (params) => {
+        this.isLoading = true
         return fetch(`${this.restUrl}/get-lastTickerPrice`, {
             method: "POST",
             headers: {
@@ -66,7 +69,6 @@ export class StockStore {
     @action.bound
     onLoadTickers(json) {
         this.tickers = json.list
-        this.isLoading = false
         this.tickersFilterValues.LAST_PAGE_NUMBER = json.last_page_number
         this.isInitialized = true
     }
