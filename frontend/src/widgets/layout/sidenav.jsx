@@ -11,6 +11,8 @@ import {
   WalletIcon
 } from "@heroicons/react/24/solid";
 import { useMaterialTailwindController, setOpenSidenav } from "@/context";
+import appStore from "../../stores/AppStore.jsx";
+import {useEffect} from "react";
 
 export function Sidenav({ brandImg, brandName, routes }) {
   const [controller, dispatch] = useMaterialTailwindController();
@@ -67,7 +69,7 @@ export function Sidenav({ brandImg, brandName, routes }) {
             )}
             {pages.map(({ icon, name, path }) => (
               <li key={name}>
-                <NavLink to={`/${layout}${path}`}>
+                <NavLink to={`${path}`}>
                   {({ isActive }) => (
                     <Button
                       variant={isActive ? "gradient" : "text"}
