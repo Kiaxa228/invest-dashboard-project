@@ -19,6 +19,9 @@ export default defineConfig({
       },
     })
   ],
+  css: {
+    modules: true
+  },
   resolve: {
     alias: [{ find: "@", replacement: "/src" }],
   },

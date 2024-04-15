@@ -4,7 +4,7 @@ import asyncio
 from tinkoff.invest.utils import now
 from datetime import timedelta
 from tinkoff.invest import CandleInterval, Client
-from tinkoff.invest.schemas import CandleSource
+from tinkoff.invest.schemas import CandleSource, InstrumentIdType
 import sys
 sys.path.append('C:\Development\Projects\invest-dashboard')
 
@@ -50,6 +50,9 @@ class TinkoffApi:
                 res_list.append({
                     'close': candle.close.units + float(f'0.{candle.close.nano}'),
                     'volume': candle.volume,
+                    'open':  candle.open.units + float(f'0.{candle.open.nano}'),
+                    'high': candle.high.units + float(f'0.{candle.high.nano}'),
+                    'low': candle.low.units + float(f'0.{candle.low.nano}'),
                     'time': candle.time.isoformat()
                 })
 
@@ -72,3 +75,9 @@ class TinkoffApi:
             last_price = await client.market_data.get_last_prices(figi=params.figi)
 
             return last_price
+
+    async def get_ticker_data(self, ticker_data):
+        async with self.client as client:
+            share_data = await client.instruments.share_by(id_type=InstrumentIdType.INSTRUMENT_ID_TYPE_FIGI,id=ticker_data[0].get('figi'))
+
+            return share_data

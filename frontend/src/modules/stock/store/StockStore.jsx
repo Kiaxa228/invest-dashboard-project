@@ -18,6 +18,13 @@ export class StockStore {
         "CATEGORY": 0
     }
 
+    catalogCategory = {
+        'share': 0,
+        'currency': 1,
+        'fund': 2,
+        'bond': 3
+    }
+
     constructor() {
         makeAutoObservable(this)
     }
@@ -47,6 +54,17 @@ export class StockStore {
     getTickerCandles = (params) => {
         this.isLoading = true
         return fetch(`${this.restUrl}/get-tickerCandles`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(params)
+        })
+    }
+
+    getDataByTickerName = (params) => {
+        this.isLoading = true
+        return fetch(`${this.restUrl}/get-dataByTickerName`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

@@ -81,6 +81,11 @@ const TABLE_ROWS = [
 
 export const TickersTable =  observer(({category, tickers}) => {
 
+    const convertToEng = {
+        'акций': 'share',
+        'валют': 'currency',
+    }
+
     const [tickersCandles, setTickersCandles] = useState(Array(5000).fill({
         candles: [],
         growPerDayAmount: 0,
@@ -151,7 +156,7 @@ export const TickersTable =  observer(({category, tickers}) => {
     }
 
     const onTableRowClick = (index) => {
-        document.location.href = appStore.structureURL + `/stock/${tickers[index].ticker}`
+        document.location.href = appStore.structureURL + `/stock/${convertToEng[category]}/${tickers[index].ticker}`
     }
 
     const getChipsForGrowth = (firstValue, secondValue, currency) => {
@@ -219,7 +224,7 @@ export const TickersTable =  observer(({category, tickers}) => {
                     </thead>
                     <tbody>
                     {
-                        stockStore.isLoading || !tickers ? <LoadingSpinner/> : tickers.map(
+                        stockStore.isLoading || !tickers ? <LoadingSpinner isInTable={true}/> : tickers.map(
                         (el, index) => {
                             const isLast = index === TABLE_ROWS.length - 1;
                             const classes = isLast
