@@ -1,13 +1,14 @@
 import numpy as np
 from fastapi import APIRouter
 import pandas
-from pydantic import BaseModel
+
 import json
 import datetime
-from enum import Enum
-from tinkoff.invest import CandleInterval
+
 import os
 import sys
+import pandas_ta as ta
+
 
 
 current_directory = os.path.dirname(__file__)
@@ -17,38 +18,11 @@ project_directory = os.path.dirname(parent_directory)
 sys.path.append(project_directory)
 
 from backend.api.tinkoffApi.TinkoffApi import TinkoffApi
+from backend.model.stock_controllers_models import *
 
 stock_router = APIRouter()
 
 
-class CatalogCategory(Enum):
-    SHARES = 0
-    CURRENCIES = 1
-    FUNDS = 2
-    BONDS = 3
-
-
-class TickersFilterValues(BaseModel):
-    ITEMS_ON_PAGE: int
-    PAGE: int
-    TICKER_NAME: str
-    CATEGORY: CatalogCategory
-
-
-class TickerCandlesParams(BaseModel):
-    uid: str
-    timeType: str
-    timeAmount: int
-    interval: CandleInterval
-
-
-class TickerParams(BaseModel):
-    ticker: str
-    CATEGORY: CatalogCategory
-
-
-class TickerLastPriceParams(BaseModel):
-    figi: list
 
 
 token = 't.9fxy_N36rju5XJU9hzW0iHe-mYoymkxpdFxTTuWq91OLhdrNUSWyXWnPKWvF4q8AJDaFUQwKgPoTwH1ykdh-FQ'
@@ -72,15 +46,21 @@ async def get_tickers(filter_values: TickersFilterValues):
 async def get_data_by_ticker_name(ticker_params: TickerParams):
     ticker_data = get_category_data(ticker_params.CATEGORY, ticker_params.ticker)
 
-    last_ticker_price_obj = await get_last_ticker_price(TickerLastPriceParams(figi=[ticker_data[0].get('figi')]))
+    last_ticker_price_json = await get_last_ticker_price(TickerLastPriceParams(figi=[ticker_data[0].get('figi')]))
 
-    ticker_candles_obj = await get_ticker_candles(TickerCandlesParams(uid=ticker_data[0].get('uid'), timeType='y', timeAmount=1, interval=5))
+    ticker_candles_json = await get_ticker_candles(TickerCandlesParams(uid=ticker_data[0].get('uid'), timeType='y', timeAmount=1, interval=5))
+
+    ticker_candles_obj = json.loads(ticker_candles_json)
+
+    df = pandas.DataFrame(ticker_candles_obj.get('candles'))
+
+    #todo Stock Outliners
 
     tinkoff_obj = TinkoffApi(token)
 
-    category_data = await tinkoff_obj.get_ticker_data(ticker_data)
+    category_data = await tinkoff_obj.get_ticker_data(ticker_data, ticker_params.CATEGORY)
 
-    return last_ticker_price_obj, ticker_candles_obj, category_data
+    return last_ticker_price_json, ticker_candles_json, category_data
 
 
 

@@ -8,6 +8,8 @@ from tinkoff.invest.schemas import CandleSource, InstrumentIdType
 import sys
 sys.path.append('C:\Development\Projects\invest-dashboard')
 
+from backend.model.stock_controllers_models import CatalogCategory
+
 
 tracemalloc.start()
 
@@ -76,8 +78,13 @@ class TinkoffApi:
 
             return last_price
 
-    async def get_ticker_data(self, ticker_data):
+    async def get_ticker_data(self, ticker_data, category):
         async with self.client as client:
-            share_data = await client.instruments.share_by(id_type=InstrumentIdType.INSTRUMENT_ID_TYPE_FIGI,id=ticker_data[0].get('figi'))
+            if category == CatalogCategory.SHARES:
+                data = await client.instruments.share_by(id_type=InstrumentIdType.INSTRUMENT_ID_TYPE_FIGI,id=ticker_data[0].get('figi'))
+            elif category == CatalogCategory.CURRENCIES:
+                data = await client.instruments.currency_by(id_type=InstrumentIdType.INSTRUMENT_ID_TYPE_FIGI,id=ticker_data[0].get('figi'))
+            elif category == CatalogCategory.BONDS:
+                data = await client.instruments.bond_by(id_type=InstrumentIdType.INSTRUMENT_ID_TYPE_FIGI,id=ticker_data[0].get('figi'))
 
-            return share_data
+            return data

@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { IgrFinancialChart } from "igniteui-react-charts";
+import { IgrFinancialChart, IgrFinancialPriceSeries } from "igniteui-react-charts";
 import { IgrFinancialChartModule } from "igniteui-react-charts";
 
 IgrFinancialChartModule.register();
@@ -10,12 +10,13 @@ export default class FinancialChartStock extends React.Component<any, any> {
     constructor(props: any) {
         super(props);
         this.state = {
-            data: []
+            data: [],
+            brushes : ["#ffe600"],
         }
     }
 
     componentDidUpdate(prevProps) {
-        if (prevProps.data !== this.props.data) {
+        if (prevProps !== this.props) {
             let newData = []
 
             for (let i = 0; i < this.props.data.length; i++) {
@@ -26,6 +27,7 @@ export default class FinancialChartStock extends React.Component<any, any> {
                 newData.push(obj)
             }
 
+            this.setState({brushes: [this.props.chartColor]})
             this.setState({data: newData})
         }
     }
@@ -37,26 +39,19 @@ export default class FinancialChartStock extends React.Component<any, any> {
                     <IgrFinancialChart
                         width="100%"
                         height="100%"
-                        isToolbarVisible={false}
-                        chartType="Candle"
-                        chartTitle="S&P 500"
+                        isToolbarVisible={true}
+                        chartType="Line"
                         titleAlignment="Left"
                         titleLeftMargin="25"
                         titleTopMargin="10"
                         titleBottomMargin="10"
-                        subtitle="CME - CME Delayed Price, Currency in USD"
-                        subtitleAlignment="Left"
-                        subtitleLeftMargin="25"
-                        subtitleTopMargin="5"
-                        subtitleBottomMargin="10"
                         yAxisLabelLocation="OutsideLeft"
+                        areaFillOpacity="0.2"
                         yAxisMode="Numeric"
-                        yAxisTitle="Financial Prices"
-                        yAxisTitleLeftMargin="10"
-                        yAxisTitleRightMargin="5"
-                        yAxisLabelLeftMargin="0"
-                        zoomSliderType="None"
-                        dataSource={this.state.data}/>
+                        zoomSliderType="Auto"
+                        brushes={this.state.brushes}
+                        dataSource={this.state.data}>
+                    </IgrFinancialChart>
                 </div>
             </div>
         );
