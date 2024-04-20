@@ -31,53 +31,6 @@ import appStore from "../../../stores/AppStore.jsx";
 
 const TABLE_HEAD = ["Название", "Цена", "За день", "За год", "График"];
 
-const TABLE_ROWS = [
-    {
-        img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-3.jpg",
-        name: "John Michael",
-        email: "john@creative-tim.com",
-        job: "Manager",
-        org: "Organization",
-        online: true,
-        date: "23/04/18",
-    },
-    {
-        img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-2.jpg",
-        name: "Alexa Liras",
-        email: "alexa@creative-tim.com",
-        job: "Programator",
-        org: "Developer",
-        online: false,
-        date: "23/04/18",
-    },
-    {
-        img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-1.jpg",
-        name: "Laurent Perrier",
-        email: "laurent@creative-tim.com",
-        job: "Executive",
-        org: "Projects",
-        online: false,
-        date: "19/09/17",
-    },
-    {
-        img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-4.jpg",
-        name: "Michael Levi",
-        email: "michael@creative-tim.com",
-        job: "Programator",
-        org: "Developer",
-        online: true,
-        date: "24/12/08",
-    },
-    {
-        img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-5.jpg",
-        name: "Richard Gran",
-        email: "richard@creative-tim.com",
-        job: "Manager",
-        org: "Executive",
-        online: false,
-        date: "04/10/21",
-    },
-];
 
 export const TickersTable =  observer(({category, tickers}) => {
 
@@ -226,7 +179,7 @@ export const TickersTable =  observer(({category, tickers}) => {
                     {
                         stockStore.isLoading || !tickers ? <LoadingSpinner isInTable={true}/> : tickers.map(
                         (el, index) => {
-                            const isLast = index === TABLE_ROWS.length - 1;
+                            const isLast = index === 4;
                             const classes = isLast
                                 ? "p-4"
                                 : "p-4 border-b border-blue-gray-50";
@@ -241,6 +194,16 @@ export const TickersTable =  observer(({category, tickers}) => {
                                                 <div>
                                                     <Typography variant="h6" color={'black'}>{el.name}</Typography>
                                                     <Typography variant="small" color="gray" className="font-normal">{el.ticker}</Typography>
+                                                </div>
+                                                <div>
+                                
+                                                    <IconButton 
+                                                         ripple={true} 
+                                                         variant="text"
+                                                         color="blue"
+                                                         title="В избранное">
+                                                            <i className="far fa-star"/>
+                                                    </IconButton>
                                                 </div>
                                             </div>
                                     </td>
