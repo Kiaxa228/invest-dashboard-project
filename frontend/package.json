@@ -33,6 +33,7 @@
     "react-color": "^2.19.3",
     "react-dom": "18.2.0",
     "react-router-dom": "6.17.0",
+    "react-ticker-tape": "^1.1.2",
     "typescript": "^5.4.5"
   },
   "devDependencies": {
