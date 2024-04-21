@@ -33,7 +33,28 @@ export class StockStore {
     init() {
         this.isLoading = true
 
-        this.getTickers()
+        this.getDefaultData()
+    }
+
+    @action
+    getDefaultData() {
+        this.isLoading = true
+
+        fetch(`${this.restUrl}/get-tickers`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(this.tickersFilterValues)
+        })
+            .then((response) => response.json())
+            .then((json) => {
+                const obj = JSON.parse(json)
+
+                this.tickers = obj.list
+
+            })
+            .catch((err) => this.onError(err))
     }
 
     @action

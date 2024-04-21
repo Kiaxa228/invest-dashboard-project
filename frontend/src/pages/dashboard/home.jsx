@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {
   Typography,
   Card,
@@ -30,15 +30,21 @@ import {useMaterialTailwindController} from "../../context/index.jsx";
 import DoughnutChartSelection from '../../modules/dashboard/components/DoughnutChartSelection'
 import LineChart from '../../modules/dashboard/components/LineChart'
 import {TickerTape} from '../../components/TickerTape.jsx'
-export function Home() {
+import stockStore from "../../modules/stock/store/StockStore.jsx";
+import {observer} from "mobx-react-lite"
+export const Home = observer(() => {
 
   const [controller, dispatch] = useMaterialTailwindController();
   const { sidenavColor, sidenavType, openSidenav, textColor } = controller;
 
+  useEffect(() => {
+    stockStore.getTickers()
+  }, []);
+
   return (
     <div className="mt-12">
       <div className="mb-12">
-        <TickerTape/>
+        <TickerTape tickers={stockStore.tickers}/>
       </div>
       <div className="mb-6 grid gap-y-10 gap-x-6 md:grid-cols-2 xl:grid-cols-4">
         {statisticsCardsData.map(({ icon, title, footer, ...rest }) => (
@@ -251,6 +257,4 @@ export function Home() {
       </div>
     </div>
   );
-}
-
-export default Home;
+})
