@@ -26,8 +26,13 @@ import {
   ordersOverviewData,
 } from "@/data";
 import { CheckCircleIcon, ClockIcon } from "@heroicons/react/24/solid";
+import {useMaterialTailwindController} from "../../context/index.jsx";
 
 export function Home() {
+
+  const [controller, dispatch] = useMaterialTailwindController();
+  const { sidenavColor, sidenavType, openSidenav, textColor } = controller;
+
   return (
     <div className="mt-12">
       <div className="mb-12 grid gap-y-10 gap-x-6 md:grid-cols-2 xl:grid-cols-4">
@@ -37,10 +42,10 @@ export function Home() {
             {...rest}
             title={title}
             icon={React.createElement(icon, {
-              className: "w-6 h-6 text-white",
+              className: "w-6 h-6 text-black",
             })}
             footer={
-              <Typography className="font-normal text-blue-gray-600">
+              <Typography className="font-normal" color={textColor}>
                 <strong className={footer.color}>{footer.value}</strong>
                 &nbsp;{footer.label}
               </Typography>

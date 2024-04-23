@@ -15,7 +15,6 @@ const stores = {
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <BrowserRouter>
       <ThemeProvider>
         <MaterialTailwindControllerProvider>
             <Provider {...stores}>
@@ -23,6 +22,5 @@ ReactDOM.createRoot(document.getElementById("root")).render(
             </Provider>
         </MaterialTailwindControllerProvider>
       </ThemeProvider>
-    </BrowserRouter>
   </React.StrictMode>
 );
