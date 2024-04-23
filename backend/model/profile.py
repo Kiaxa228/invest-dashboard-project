@@ -10,7 +10,7 @@ class Profile(Base):
                         autoincrement=True)
     username = Column(VARCHAR(200), ForeignKey('User.username'),
                       nullable=False, unique=True)
-    balance = Column(DECIMAL, default=0)
+    balance = Column(DECIMAL, default=10000)
     investment = Column(DECIMAL, default=0)
     dollars = Column(DECIMAL, default=0)
     euro = Column(DECIMAL, default=0)
