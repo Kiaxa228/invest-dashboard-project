@@ -3,11 +3,6 @@ import appStore from "@/stores/AppStore.jsx";
 import {makeAutoObservable} from "mobx";
 
 export class InvestmentsStore {
-
-    constructor() {
-        makeAutoObservable(this)
-    }
-
     balance = {
         currentBalance: 0,
         investments: 0,
@@ -18,6 +13,10 @@ export class InvestmentsStore {
     isLoading = false
     error = ''
     isInitialized = true
+
+    constructor() {
+        makeAutoObservable(this)
+    }
 
     @action
     init() {
