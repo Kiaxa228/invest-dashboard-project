@@ -1,31 +1,33 @@
 from backend.model.users import User
 from backend.model.profile import Profile
-from backend.model.db_session import create_session
+from backend.model.model_dto import RegisterData
 
 
-def create_user(username, password):
+def create_user(data: RegisterData, session):
+    if not data.username:
+        return False
+
+    if session.query(User).filter_by(username=data.username).one_or_none() is not None:
+        return False
     user = User()
-    user.username = username
-    user.password = password
-    session = create_session()
+
+    user.username = data.username
+    user.password = data.password
     session.add(user)
     session.commit()
+    return data
 
 
-def delete_user(username):
-    session = create_session()
-
-    try:
-        profile = session.query(Profile).filter_by(username=Profile.username == username).first()
+def delete_user(data: RegisterData, session):
+    user = session.query(User).filter_by(username=data.username).one_or_none()
+    if user is None:
+        return False
+    profile = session.query(Profile).filter_by(username=data.username).one_or_none()
+    if profile is not None:
         session.delete(profile)
-        session.commit()
-    except Exception:
-        return f"ERROR: No profile found for {username}"
 
-    try:
-        user = session.query(User).filter(User.username == username).first()
-        session.delete(user)
-        session.commit()
-    except Exception:
-        return f"ERROR: there is no user {username}"
-    return "Success"
+    session.delete(user)
+    session.commit()
+
+    return True
+
