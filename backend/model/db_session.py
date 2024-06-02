@@ -21,9 +21,8 @@ def global_init(db_name):
         config = json.load(f)
         db_source = config['db_source']
 
-    engine = sa.create_engine(db_source, echo=False)
-    # Удалить, когда будет окончательная версия БД
-    # Эта строка очищает БД
+    engine = sa.create_engine(f'postgresql://postgres:postgres@localhost:5432/{db_name}', echo=False)
+
     Base.metadata.drop_all(engine)
 
     __factory = orm.sessionmaker(bind=engine)
