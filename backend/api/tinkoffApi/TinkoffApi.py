@@ -10,7 +10,6 @@ sys.path.append('C:\Development\Projects\invest-dashboard')
 
 from backend.model.stock_controllers_models import CatalogCategory
 
-
 tracemalloc.start()
 
 class TinkoffApi:

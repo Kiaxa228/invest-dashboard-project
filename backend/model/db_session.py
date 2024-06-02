@@ -9,19 +9,17 @@ Base = dec.declarative_base()
 __factory = None
 
 
-def global_init(db_name):
+def global_init():
     global __factory
 
     if __factory:
         return
 
-    if not db_name or not db_name.strip:
-        raise ValueError('Name of database is empty')
     with open('backend/utils/config.json', 'r') as f:
         config = json.load(f)
-        db_source = config['db_source']
+        db_source = config['test_source']
 
-    engine = sa.create_engine(f'postgresql://postgres:postgres@localhost:5432/{db_name}', echo=False)
+    engine = sa.create_engine(db_source, echo=False)
 
     Base.metadata.drop_all(engine)
 
