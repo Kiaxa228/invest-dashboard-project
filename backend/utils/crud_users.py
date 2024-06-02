@@ -27,3 +27,14 @@ def delete_user(data: RegisterData, session):
     session.commit()
 
     return True
+
+
+def validate_user(data: RegisterData, session):
+    user = session.query(User).filter_by(username=data.username).one_or_none()
+    if not user:
+        return False
+    if user.password != data.password:
+        return False
+
+    return True
+
