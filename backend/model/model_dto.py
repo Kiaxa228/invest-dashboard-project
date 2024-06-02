@@ -9,9 +9,9 @@ class RegisterData(BaseModel):
 class ProfileDto(BaseModel):
     profile_id: int = None
     username: str = None
-    balance: float
-    investment: float
-    dollars: float
-    euro: float
-    yuan: float
-    bitcoin: float
+    balance: float = 0
+    investment: float = 0
+    dollars: float = 0
+    euro: float = 0
+    yuan: float = 0
+    bitcoin: float = 0
