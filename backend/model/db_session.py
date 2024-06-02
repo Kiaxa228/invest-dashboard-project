@@ -17,9 +17,9 @@ def global_init():
 
     with open('backend/utils/config.json', 'r') as f:
         config = json.load(f)
-        db_source = config['db_source']
+        db_source = config['test_source']
 
-    engine = sa.create_engine(f'postgresql://postgres:postgres@localhost:5432/{db_name}', echo=False)
+    engine = sa.create_engine(db_source, echo=False)
 
     Base.metadata.drop_all(engine)
 
