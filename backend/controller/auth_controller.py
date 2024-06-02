@@ -23,7 +23,7 @@ async def login(request: Request, credentials: HTTPBasicCredentials = Depends(se
     session = create_session()
     username = credentials.username
     password = credentials.password
-    user = RegisterData(username, password)
+    user = RegisterData(username=username, password=password)
     if validate_user(user, session):
         request.session['user'] = username
         session.close()
