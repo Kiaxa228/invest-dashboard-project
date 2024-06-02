@@ -16,7 +16,7 @@ def delete_user(username):
     session = create_session()
 
     try:
-        profile = session.query(Profile).filter(Profile.username == username).first()
+        profile = session.query(Profile).filter_by(username=Profile.username == username).first()
         session.delete(profile)
         session.commit()
     except Exception:
@@ -29,6 +29,3 @@ def delete_user(username):
     except Exception:
         return f"ERROR: there is no user {username}"
     return "Success"
-
-
-
