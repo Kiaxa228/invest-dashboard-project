@@ -11,7 +11,7 @@ import './styles/SignInPage.css'
 export function SignIn() {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
-
+    const navigate = useNavigate();
     const onPassChange = (event) => {
         setPassword(event.target.value)
     }
@@ -33,10 +33,10 @@ export function SignIn() {
             }),
             credentials: "include"
         }
-        fetch("http://192.168.1.68:8080/auth/login", requestOptions)
+        fetch("http://127.0.0.1:8080/auth/login", requestOptions)
             .then(response => {
                 if (response.status === 200) {
-                    //todo переход на страницу
+                    navigate("/stock")
                 }
             }).catch(error => console.log(error))
     }
