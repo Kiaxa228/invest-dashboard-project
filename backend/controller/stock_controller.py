@@ -1,42 +1,28 @@
+import numpy as np
 from fastapi import APIRouter
 import pandas
-from pydantic import BaseModel
+
 import json
 import datetime
-from enum import Enum
-from tinkoff.invest import CandleInterval
+
 import os
 import sys
-sys.path.append('C:\Development\Projects\invest-dashboard')
+import pandas_ta as ta
+
+
+
+current_directory = os.path.dirname(__file__)
+parent_directory = os.path.dirname(current_directory)
+project_directory = os.path.dirname(parent_directory)
+
+sys.path.append(project_directory)
 
 from backend.api.tinkoffApi.TinkoffApi import TinkoffApi
+from backend.model.stock_controllers_models import *
 
 stock_router = APIRouter()
 
 
-class CatalogCategory(Enum):
-    SHARES = 0
-    CURRENCIES = 1
-    FUNDS = 2
-    BONDS = 3
-
-
-class TickersFilterValues(BaseModel):
-    ITEMS_ON_PAGE: int
-    PAGE: int
-    TICKER_NAME: str
-    CATEGORY: CatalogCategory
-
-
-class TickerCandlesParams(BaseModel):
-    uid: str
-    timeType: str
-    timeAmount: int
-    interval: CandleInterval
-
-
-class TickerLastPriceParams(BaseModel):
-    figi: list
 
 
 token = 't.9fxy_N36rju5XJU9hzW0iHe-mYoymkxpdFxTTuWq91OLhdrNUSWyXWnPKWvF4q8AJDaFUQwKgPoTwH1ykdh-FQ'
@@ -44,7 +30,7 @@ token = 't.9fxy_N36rju5XJU9hzW0iHe-mYoymkxpdFxTTuWq91OLhdrNUSWyXWnPKWvF4q8AJDaFU
 @stock_router.post('/get-tickers')
 async def get_tickers(filter_values: TickersFilterValues):
 
-    category_list = get_category_list(filter_values)
+    category_list = get_category_data(filter_values.CATEGORY, filter_values.TICKER_NAME)
 
     ind_from = (filter_values.PAGE - 1) * filter_values.ITEMS_ON_PAGE
     ind_end = filter_values.PAGE * filter_values.ITEMS_ON_PAGE
@@ -56,21 +42,46 @@ async def get_tickers(filter_values: TickersFilterValues):
 
     return json.dumps(res_obj)
 
+@stock_router.post('/get-dataByTickerName')
+async def get_data_by_ticker_name(ticker_params: TickerParams):
+    ticker_data = get_category_data(ticker_params.CATEGORY, ticker_params.ticker)
 
-def get_category_list(filter_values):
+    last_ticker_price_json = await get_last_ticker_price(TickerLastPriceParams(figi=[ticker_data[0].get('figi')]))
+
+    ticker_candles_json = await get_ticker_candles(TickerCandlesParams(uid=ticker_data[0].get('uid'), timeType='y', timeAmount=1, interval=5))
+
+    ticker_candles_obj = json.loads(ticker_candles_json)
+
+    df = pandas.DataFrame(ticker_candles_obj.get('candles'))
+
+    #todo Stock Outliners
+
+    tinkoff_obj = TinkoffApi(token)
+
+    category_data = await tinkoff_obj.get_ticker_data(ticker_data, ticker_params.CATEGORY)
+
+    return last_ticker_price_json, ticker_candles_json, category_data
+
+
+
+def get_filepath_to_datadir(file_name):
     current_directory = os.path.dirname(__file__)
     parent_directory = os.path.dirname(current_directory)
+    
+    return os.path.join(parent_directory, 'data', file_name)
+    
+def get_category_data(category, ticker_name):
     res_list = []
 
-    if filter_values.CATEGORY == CatalogCategory.SHARES:
+    if category == CatalogCategory.SHARES:
 
-        file_path = os.path.join(parent_directory, 'data', 'TickersData.csv')
+        file_path = get_filepath_to_datadir('TickersData.csv')
 
         df = pandas.read_csv(file_path, encoding='UTF-8')
 
-        if filter_values.TICKER_NAME:
-            df_ticker_filtered = df[df['ticker'].str.contains(filter_values.TICKER_NAME.upper())]
-            df_name_filtered = df[df['name'].str.lower().str.contains(filter_values.TICKER_NAME.lower())]
+        if ticker_name:
+            df_ticker_filtered = df[df['ticker'].str.contains(ticker_name.upper())]
+            df_name_filtered = df[df['name'].str.lower().str.contains(ticker_name.lower())]
 
             df_combined = pandas.concat([df_ticker_filtered, df_name_filtered])
 
@@ -95,14 +106,14 @@ def get_category_list(filter_values):
                 'logoTextColor': ticker.brand[ticker.brand.find('text_color') + 11:ticker.brand.rfind(")")]
             })
 
-    elif filter_values.CATEGORY == CatalogCategory.CURRENCIES:
-        file_path = os.path.join(parent_directory, 'data', 'CurrenciesData.csv')
+    elif category == CatalogCategory.CURRENCIES:
+        file_path = get_filepath_to_datadir('CurrenciesData.csv')
 
         df = pandas.read_csv(file_path, encoding='UTF-8')
 
-        if filter_values.TICKER_NAME:
-            df_ticker_filtered = df[df['ticker'].str.contains(filter_values.TICKER_NAME.upper())]
-            df_name_filtered = df[df['name'].str.lower().str.contains(filter_values.TICKER_NAME.lower())]
+        if ticker_name:
+            df_ticker_filtered = df[df['ticker'].str.contains(ticker_name.upper())]
+            df_name_filtered = df[df['name'].str.lower().str.contains(ticker_name.lower())]
 
             df_combined = pandas.concat([df_ticker_filtered, df_name_filtered])
 
@@ -161,7 +172,6 @@ async def get_last_ticker_price(params: TickerLastPriceParams):
 
     res_list = []
 
-
     for last_price in last_price_response.last_prices:
         res_list.append(last_price.price.units + float(f'0.{last_price.price.nano}'))
 
@@ -180,10 +190,7 @@ async def generate_tickers_data():
 
     tickers_list = await tinkoff_obj.get_shares_list()
 
-    current_directory = os.path.dirname(__file__)
-    parent_directory = os.path.dirname(current_directory)
-
-    file_path = os.path.join(parent_directory, 'data', 'TickersData.csv')
+    file_path = get_filepath_to_datadir('TickersData.csv')
 
     with open(file_path, 'w', encoding='UTF-8') as csvfile:
         for ticker in tickers_list.instruments:
@@ -204,10 +211,7 @@ async def generate_currencies_data():
 
     currencies_list = await tinkoff_obj.get_currencies_list()
 
-    current_directory = os.path.dirname(__file__)
-    parent_directory = os.path.dirname(current_directory)
-
-    file_path = os.path.join(parent_directory, 'data', 'CurrenciesData.csv')
+    file_path = get_filepath_to_datadir('CurrenciesData.csv')
 
     with open(file_path, 'w', encoding='UTF-8') as csvfile:
         for currency in currencies_list.instruments:

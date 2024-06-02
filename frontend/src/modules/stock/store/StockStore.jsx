@@ -18,6 +18,13 @@ export class StockStore {
         "CATEGORY": 0
     }
 
+    catalogCategory = {
+        'share': 0,
+        'currency': 1,
+        'fund': 2,
+        'bond': 3
+    }
+
     constructor() {
         makeAutoObservable(this)
     }
@@ -26,7 +33,28 @@ export class StockStore {
     init() {
         this.isLoading = true
 
-        this.getTickers()
+        this.getDefaultData()
+    }
+
+    @action
+    getDefaultData() {
+        this.isLoading = true
+
+        fetch(`${this.restUrl}/get-tickers`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(this.tickersFilterValues)
+        })
+            .then((response) => response.json())
+            .then((json) => {
+                const obj = JSON.parse(json)
+
+                this.tickers = obj.list
+
+            })
+            .catch((err) => this.onError(err))
     }
 
     @action
@@ -47,6 +75,17 @@ export class StockStore {
     getTickerCandles = (params) => {
         this.isLoading = true
         return fetch(`${this.restUrl}/get-tickerCandles`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(params)
+        })
+    }
+
+    getDataByTickerName = (params) => {
+        this.isLoading = true
+        return fetch(`${this.restUrl}/get-dataByTickerName`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

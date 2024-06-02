@@ -14,7 +14,7 @@ import SignIn from"./pages/auth/sign-in.jsx"
 import SignUp from"./pages/auth/sign-up.jsx"
 import SiteFraming from "./layouts/SiteFraming.jsx";
 import {Home} from  "@/pages/dashboard"
-import {TickerData} from "./modules/stock/view/TickerData.jsx"
+import {TickerData} from "./modules/stock/view/TickerData.tsx"
 
 export const App = observer(() => {
 
