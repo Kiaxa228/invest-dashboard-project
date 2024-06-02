@@ -8,10 +8,12 @@ import {
   ChartBarSquareIcon,
     CurrencyEuroIcon
 } from "@heroicons/react/24/solid";
+import {useMaterialTailwindController} from "../context/index.jsx";
+
 
 export const statisticsCardsData = [
   {
-    color: "pink",
+    color: "yellow",
     icon: CreditCardIcon,
     title: "Баланс",
     value: "₽53000",
@@ -22,7 +24,7 @@ export const statisticsCardsData = [
     },
   },
   {
-    color: "pink",
+    color: "yellow",
     icon: ChartBarSquareIcon,
     title: "Инвестиции",
     value: "₽2,300",
@@ -33,7 +35,7 @@ export const statisticsCardsData = [
     },
   },
   {
-    color: "pink",
+    color: "yellow",
     icon: CurrencyDollarIcon,
     title: "USD",
     value: "$3,462",
@@ -44,7 +46,7 @@ export const statisticsCardsData = [
     },
   },
   {
-    color: "pink",
+    color: "yellow",
     icon: CurrencyEuroIcon,
     title: "EUR",
     value: "€103,430",

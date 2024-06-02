@@ -5,18 +5,20 @@ import {
   InformationCircleIcon,
   ServerStackIcon,
   RectangleStackIcon,
-  Cog6ToothIcon
+  Cog6ToothIcon,
+    ChartBarIcon
 } from "@heroicons/react/24/solid";
 import { Home, Profile, Tables, Notifications } from "@/pages/dashboard";
 import { SignIn, SignUp } from "@/pages/auth";
 import SettingsData from "@/modules/settings/view/SettingsData.jsx";
+import {StockData} from "./modules/stock/view/StockData.jsx";
 
 
 const icon = {
   className: "w-5 h-5 text-inherit",
 };
 
-export const routes = [
+  export const routes = [
   {
     layout: "dashboard",
     pages: [
@@ -29,15 +31,21 @@ export const routes = [
       {
         icon: <UserCircleIcon {...icon} />,
         name: "Профиль",
-        path: "/profile",
+        path:  "/profile",
         element: <Profile />,
+      },
+      {
+        icon: <ChartBarIcon {...icon} />,
+        name: "Биржа",
+        path: "/stock",
+        element: <StockData />,
       },
       {
         icon: <Cog6ToothIcon {...icon} />,
         name: "Настройки",
         path: "/settings",
         element: <SettingsData />,
-      },
+      }
     ],
   },
   {
