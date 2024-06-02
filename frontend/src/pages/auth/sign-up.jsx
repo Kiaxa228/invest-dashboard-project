@@ -7,12 +7,12 @@ import {
 } from "@material-tailwind/react";
 import {Link} from "react-router-dom";
 import {useEffect, useState} from "react";
-
+import { useNavigate } from "react-router-dom";
 
 export function SignUp() {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
-
+    const navigate = useNavigate();
     const onPassChange = (event) => {
         setPassword(event.target.value)
     }
@@ -30,10 +30,10 @@ export function SignUp() {
                 password: password
             }),
         }
-        fetch("http://192.168.1.68:8080/auth/register", requestOptions)
+        fetch("http://127.0.0.1:8080/auth/register", requestOptions)
             .then(response => {
                 if (response.status === 200) {
-                    //todo переход на страницу
+                    navigate("/stock")
                 }
             }).catch(error => console.log(error))
     }

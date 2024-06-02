@@ -1,34 +1,43 @@
 from fastapi import APIRouter, Depends, Request, Response
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from starlette import status
+import sys, os
 
-from model.model_dto import RegisterData
+
+current_directory = os.path.dirname(__file__)
+parent_directory = os.path.dirname(current_directory)
+project_directory = os.path.dirname(parent_directory)
+
+sys.path.append(project_directory)
+
+from backend.model.db_session import create_session
+from backend.model.model_dto import RegisterData
+from backend.utils.crud_users import validate_user, create_user
 
 auth_router = APIRouter()
 
 security = HTTPBasic()
 
-# todo Реализвать работу с БД. Необходимые функции: сохранение, получение usera
-VALID_USERS = {
-    'admin': 'password123',
-    'user1': 'pass1234'
-}
-
-
 @auth_router.post('/login')
 async def login(request: Request, credentials: HTTPBasicCredentials = Depends(security)):
+    session = create_session()
     username = credentials.username
     password = credentials.password
-    if username in VALID_USERS and VALID_USERS[username] == password:
+    user = RegisterData(username=username, password=password)
+    if validate_user(user, session):
         request.session['user'] = username
+        session.close()
         return Response('Successfully logged in', status_code=status.HTTP_200_OK)
     else:
+        session.close()
         return Response('Incorrect username or password', status_code=401)
 
 
 @auth_router.post('/register')
 async def register(data: RegisterData):
-    if data.username in VALID_USERS:
+    session = create_session()
+    user = create_user(data, session)
+    session.close()
+    if not user:
         return Response('Username already exists', status_code=409)
-    VALID_USERS[data.username] = data.password
     return Response('Register Successful', status_code=200)
