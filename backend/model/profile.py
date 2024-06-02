@@ -1,7 +1,7 @@
 
 import sqlalchemy
 from sqlalchemy import orm, Column, VARCHAR, ForeignKey, INTEGER
-
+from .db_session import Base
 
 class Profile(Base):
     __tablename__ = 'Profile'

@@ -15,7 +15,7 @@ def global_init():
     if __factory:
         return
 
-    with open('backend/utils/config.json', 'r') as f:
+    with open('C:\\Development\\Projects\\invest-dashboard-project\\backend\\utils\\config.json', 'r') as f:
         config = json.load(f)
         db_source = config['test_source']
 
