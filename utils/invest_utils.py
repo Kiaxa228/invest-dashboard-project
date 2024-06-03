@@ -17,8 +17,24 @@ def ticker_tradestats(ticker_name, begin_date, end_date):
     print(stats_ticker.head())
 
 
+def remove_outliers(df, column):
+
+    Q1 = df[column].quantile(0.25)
+    Q3 = df[column].quantile(0.75)
+
+    IQR = Q3 - Q1
+
+    lower_bound = Q1 - 1.5 * IQR
+    upper_bound = Q3 + 1.5 * IQR
+
+    filtered_df = df[(df[column] >= lower_bound) & (df[column] <= upper_bound)]
+
+    return filtered_df
+
 def get_currency():
     pass
+
+
 
 def main():
     # ticker_candles('LKOH', '2024-04-10', '2024-04-11', '10m')
