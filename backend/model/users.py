@@ -9,8 +9,3 @@ class User(Base):
     password = Column(VARCHAR, nullable=False)
 
     profile = orm.relationship('Profile', back_populates='user')
-
-    def __repr__(self):
-        return f'<Username {self.username}>'
-
-
