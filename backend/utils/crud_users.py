@@ -4,7 +4,6 @@ from backend.model.model_dto import RegisterData
 
 
 def create_user(data: RegisterData, session):
-
     if session.query(User).filter_by(username=data.username).one_or_none() is not None:
         return False
     user = User()
