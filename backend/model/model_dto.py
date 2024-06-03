@@ -9,7 +9,7 @@ class RegisterData(BaseModel):
 class ProfileDto(BaseModel):
     profile_id: int = None
     username: str = None
-    balance: float = 0
+    balance: float = 1000
     investment: float = 0
     dollars: float = 0
     euro: float = 0
