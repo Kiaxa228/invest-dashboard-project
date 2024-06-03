@@ -11,4 +11,6 @@ class CurrenciesData(Base):
     uid = Column(VARCHAR, primary_key=True, nullable=False)
     logoName = Column(VARCHAR, nullable=False)
     type = Column(VARCHAR, nullable=False)
+    info = Column(VARCHAR, nullable=False)
+
 
