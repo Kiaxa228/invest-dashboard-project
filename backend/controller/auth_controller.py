@@ -1,8 +1,10 @@
+import uuid
+
 from fastapi import APIRouter, Depends, Request, Response
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from starlette import status
 import sys, os
-
+import hashlib
 
 current_directory = os.path.dirname(__file__)
 parent_directory = os.path.dirname(current_directory)
@@ -18,16 +20,19 @@ auth_router = APIRouter()
 
 security = HTTPBasic()
 
+
 @auth_router.post('/login')
-async def login(request: Request, credentials: HTTPBasicCredentials = Depends(security)):
+async def login(request: Request,
+                credentials: HTTPBasicCredentials = Depends(security)):
     session = create_session()
     username = credentials.username
-    password = credentials.password
+    password = hashlib.sha256(credentials.password.encode()).hexdigest()
     user = RegisterData(username=username, password=password)
     if validate_user(user, session):
         request.session['user'] = username
         session.close()
-        return Response('Successfully logged in', status_code=status.HTTP_200_OK)
+        return Response('Successfully logged in',
+                        status_code=status.HTTP_200_OK)
     else:
         session.close()
         return Response('Incorrect username or password', status_code=401)
@@ -36,6 +41,7 @@ async def login(request: Request, credentials: HTTPBasicCredentials = Depends(se
 @auth_router.post('/register')
 async def register(data: RegisterData):
     session = create_session()
+    data.password = hashlib.sha256(data.password.encode()).hexdigest()
     user = create_user(data, session)
     session.close()
     if not user:
