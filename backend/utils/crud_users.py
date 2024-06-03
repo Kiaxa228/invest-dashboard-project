@@ -1,6 +1,7 @@
 from backend.model.users import User
 from backend.model.profile import Profile
-from backend.model.model_dto import RegisterData
+from backend.model.model_dto import RegisterData, ProfileDto
+from backend.utils.crud_profile import add_profile
 
 
 def create_user(data: RegisterData, session):
@@ -10,8 +11,14 @@ def create_user(data: RegisterData, session):
 
     user.username = data.username
     user.password = data.password
+
     session.add(user)
     session.commit()
+
+    profile = ProfileDto()
+    profile.username = user.username
+
+    add_profile(profile, session)
     return data
 
 
