@@ -60,3 +60,9 @@ def delete_profile(data: ProfileDto, session):
     session.commit()
 
     return True
+
+
+def get_profile(username, session):
+    profile = session.query(Profile).filter_by(
+        username=username).one_or_none()
+    return profile

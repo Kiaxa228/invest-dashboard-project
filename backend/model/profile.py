@@ -11,14 +11,8 @@ class Profile(Base):
     username = Column(VARCHAR(200), ForeignKey('User.username'),
                       nullable=False)
     balance = Column(FLOAT, default=0)
-    investment = Column(FLOAT, default=0)
     dollars = Column(FLOAT, default=0)
     euro = Column(FLOAT, default=0)
     yuan = Column(FLOAT, default=0)
-    bitcoin = Column(FLOAT, default=0)
 
     user = orm.relationship('User', back_populates='profile')
-
-    def __repr__(self):
-        return (f'<Profile> {self.profile_id} {self.username} {self.balance} '
-                f'{self.investment}')
