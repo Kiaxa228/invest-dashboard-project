@@ -7,7 +7,7 @@ import threading
 from datetime import datetime
 import xml.etree.ElementTree as ET
 
-API_TOKEN = '7251174097:AAFh6svV6xQx69ejxlxprPo9mPk8qADmjIA'
+API_TOKEN = 'Token'
 bot = telebot.TeleBot(API_TOKEN)
 
 user_data = {}
