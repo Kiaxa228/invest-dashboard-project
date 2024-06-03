@@ -7,7 +7,6 @@ import datetime
 
 import os
 import sys
-import pandas_ta as ta
 
 
 
