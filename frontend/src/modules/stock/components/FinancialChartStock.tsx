@@ -11,24 +11,46 @@ export default class FinancialChartStock extends React.Component<any, any> {
         super(props);
         this.state = {
             data: [],
+            outliers: [],
             brushes : ["#ffe600"],
         }
     }
 
     componentDidUpdate(prevProps) {
         if (prevProps !== this.props) {
-            let newData = []
+            if(this.props.data != prevProps.data) {
+                let newData = []
 
-            for (let i = 0; i < this.props.data.length; i++) {
-                let obj = this.props.data[i];
+                for (let i = 0; i < this.props.data.length; i++) {
+                    let obj = this.props.data[i];
 
-                obj.time = new Date(obj.time)
+                    obj.time = new Date(obj.time)
 
-                newData.push(obj)
+                    newData.push(obj)
+                }
+                console.log(newData)
+                this.setState({brushes: [this.props.chartColor]})
+                this.setState({data: newData})
+            } else {
+                let newData = []
+                for (let elem in this.props.outliers.close) {
+                    newData.push({'close': Number(elem)})
+                }
+
+                let k = 0
+
+                for (let elem in this.props.outliers.time) {
+                    newData[k] = {
+                        ...newData[k],
+                        'time': new Date(elem)
+                    }
+                    k += 1
+                }
+                console.log(newData)
+                this.setState({brushes: [this.props.chartColor]})
+                this.setState({data: newData})
             }
 
-            this.setState({brushes: [this.props.chartColor]})
-            this.setState({data: newData})
         }
     }
 

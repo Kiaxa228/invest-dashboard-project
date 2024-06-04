@@ -1,15 +1,17 @@
 import os
 import sys
 import pandas as pd
-from backend.model.currencies_data import CurrenciesData
-from backend.model.db_session import create_session, global_init
-from backend.model.tickers_data import TickersData
+
 
 current_directory = os.path.dirname(__file__)
 parent_directory = os.path.dirname(current_directory)
 project_directory = os.path.dirname(parent_directory)
 
 sys.path.append(project_directory)
+from backend.model.currencies_data import CurrenciesData
+from backend.model.db_session import create_session, global_init
+from backend.model.tickers_data import TickersData
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 df = pd.read_csv(os.path.join(BASE_DIR, 'Files', '../data/CurrenciesData.csv'))
 

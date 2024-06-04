@@ -31,3 +31,6 @@ class TickerParams(BaseModel):
 
 class TickerLastPriceParams(BaseModel):
     figi: list
+
+class CurrencyParams(BaseModel):
+    ticker: str

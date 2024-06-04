@@ -8,6 +8,7 @@ import {
 import {useEffect, useState} from "react";
 import './styles/SignInPage.css'
 import { useNavigate } from "react-router-dom";
+import appStore from "../../stores/AppStore.jsx";
 
 export function SignIn() {
     const [username, setUsername] = useState("")
@@ -37,6 +38,8 @@ export function SignIn() {
         fetch("http://127.0.0.1:8080/auth/login", requestOptions)
             .then(response => {
                 if (response.status === 200) {
+                    appStore.isAuthorized = true
+                    appStore.username = username
                     navigate("/stock")
                 }
             }).catch(error => console.log(error))

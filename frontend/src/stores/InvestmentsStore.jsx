@@ -3,12 +3,11 @@ import appStore from "@/stores/AppStore.jsx";
 import {makeAutoObservable} from "mobx";
 
 export class InvestmentsStore {
-    balance = {
-        currentBalance: 0,
-        investments: 0,
-        USD: 0,
-        EUR: 0
-    }
+    currentBalance = 1000
+    investments = 0
+    USD = 0
+    EUR =  0
+    YAUN = 0
     restUrl = appStore.serverURL + "/api/investments"
     isLoading = false
     error = ''

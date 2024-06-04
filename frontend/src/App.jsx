@@ -15,6 +15,7 @@ import SignUp from"./pages/auth/sign-up.jsx"
 import SiteFraming from "./layouts/SiteFraming.jsx";
 import {Home} from  "@/pages/dashboard"
 import {TickerData} from "./modules/stock/view/TickerData.tsx"
+import {AuthorizedPage} from './components/AuthorizedPage.jsx'
 
 export const App = observer(() => {
 
@@ -37,22 +38,28 @@ export const App = observer(() => {
                                 {
                                     !investmentsStore.isLoading && investmentsStore.isInitialized &&
                                     <Fragment>
-                                        <Route path={`/home`} element={
-                                            <SiteFraming>
-                                                <Home/>
-                                            </SiteFraming>
-                                        }/>
-                                        <Route path={`/auth/*`} element={<Auth/>}/>
-                                        <Route path="/stock" element={
-                                                <SiteFraming>
-                                                    <Stock/>
-                                                </SiteFraming>
-                                        }/>
-                                        <Route path="/stock/*" element={
-                                            <SiteFraming>
-                                                <TickerData/>
-                                            </SiteFraming>
-                                        }/>
+                                            <Route path={`/home`} element={
+                                                <AuthorizedPage>
+                                                    <SiteFraming>
+                                                        <Home/>
+                                                    </SiteFraming>
+                                                </AuthorizedPage>
+                                            }/>
+                                            <Route path={`/auth/*`} element={<Auth/>}/>
+                                            <Route path="/stock" element={
+                                                <AuthorizedPage>
+                                                    <SiteFraming>
+                                                        <Stock/>
+                                                    </SiteFraming>
+                                                </AuthorizedPage>
+                                            }/>
+                                            <Route path="/stock/*" element={
+                                                <AuthorizedPage>
+                                                    <SiteFraming>
+                                                        <TickerData/>
+                                                     </SiteFraming>
+                                                </AuthorizedPage>
+                                            }/>
                                         <Route path="/sign-in" element={<SignIn/>}/>
                                         <Route path="/sign-up" element={<SignUp/>}/>
                                     </Fragment>

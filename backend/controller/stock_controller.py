@@ -10,12 +10,15 @@ import sys
 
 
 
+
 current_directory = os.path.dirname(__file__)
 parent_directory = os.path.dirname(current_directory)
 project_directory = os.path.dirname(parent_directory)
 
 sys.path.append(project_directory)
 
+from backend.model.currencies_data import CurrenciesData
+from backend.model.db_session import create_session
 from backend.api.tinkoffApi.TinkoffApi import TinkoffApi
 from backend.model.stock_controllers_models import *
 
@@ -28,7 +31,6 @@ token = 't.9fxy_N36rju5XJU9hzW0iHe-mYoymkxpdFxTTuWq91OLhdrNUSWyXWnPKWvF4q8AJDaFU
 
 @stock_router.post('/get-tickers')
 async def get_tickers(filter_values: TickersFilterValues):
-
     category_list = get_category_data(filter_values.CATEGORY, filter_values.TICKER_NAME)
 
     ind_from = (filter_values.PAGE - 1) * filter_values.ITEMS_ON_PAGE
@@ -53,22 +55,44 @@ async def get_data_by_ticker_name(ticker_params: TickerParams):
 
     df = pandas.DataFrame(ticker_candles_obj.get('candles'))
 
-    #todo Stock Outliners
+    outliers = get_outliers(df)
 
     tinkoff_obj = TinkoffApi(token)
 
     category_data = await tinkoff_obj.get_ticker_data(ticker_data, ticker_params.CATEGORY)
 
-    return last_ticker_price_json, ticker_candles_json, category_data
+    return last_ticker_price_json, ticker_candles_json, category_data, outliers.to_json()
 
+def get_outliers(df, column='volume'):
+    Q1 = df[column].quantile(0.25)
+    Q3 = df[column].quantile(0.75)
 
+    IQR = Q3 - Q1
+
+    lower_bound = Q1 - 1.5 * IQR
+    upper_bound = Q3 + 1.5 * IQR
+
+    outliers = df[(df[column] < lower_bound) | (df[column] > upper_bound)]
+
+    return outliers
 
 def get_filepath_to_datadir(file_name):
     current_directory = os.path.dirname(__file__)
     parent_directory = os.path.dirname(current_directory)
     
     return os.path.join(parent_directory, 'data', file_name)
-    
+
+@stock_router.post('/get-investments-info')
+def get_currency_info(currency_params: CurrencyParams):
+    session = create_session()
+
+
+    currency = session.query(CurrenciesData).filter_by(ticker=currency_params.ticker).first().info
+    print(type(currency))
+    session.close()
+
+    return json.dumps({'info': currency})
+
 def get_category_data(category, ticker_name):
     res_list = []
 
@@ -137,6 +161,7 @@ def get_category_data(category, ticker_name):
             })
 
     return res_list
+
 
 @stock_router.post('/get-tickerCandles')
 async def get_ticker_candles(params: TickerCandlesParams):

@@ -32,7 +32,7 @@ async def authenticate_user(request: Request):
         raise HTTPException()
 
 
-app.include_router(profile_router, prefix='/profile', dependencies=[Depends(authenticate_user)])
+app.include_router(profile_router, prefix='/profile')
 
 origins = [
     'http://localhost:5173'
