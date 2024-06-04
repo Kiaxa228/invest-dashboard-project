@@ -40,20 +40,13 @@ export const StockData = observer(() => {
                     <StockSearch tickers={stockStore.tickers}/>
                     <ButtonGroup color={"yellow"} className={" mt-5 opacity-85"}>
                         <Button onClick={() => onCategoryClick('акций', 0)}>Акции</Button>
-                        <Button onClick={() => onCategoryClick('валют', 1)}>Валюта</Button>
-                        <Button onClick={() => onCategoryClick('фондов', 2)}>Фонды</Button>
-                        <Button onClick={() => onCategoryClick('облигаций', 3)}>Облигации</Button>
+                        <Button onClick={() => onCategoryClick('валют',     1)}>Валюта</Button>
                     </ButtonGroup>
 
                     <div className="mt-3">
                         <TickersTable tickers={stockStore.tickers} category={curCategory}/>
                     </div>
 
-                    <Card className="mt-5">
-                        <CardBody className={bgThemeStyles.dark + " rounded-lg "}>
-
-                        </CardBody>
-                    </Card>
                 </div>
 
 

@@ -34,6 +34,8 @@ export const TickerData = (() => {
     const [isLoading, setIsLoading] = useState(true)
     const [growthPerTimeFrame, setGrowthPerTimeFrame] = useState(0)
     const [chartColor, setChartColor]  = useState("#ffe600")
+    const [outliers, setOutliers] = useState({})
+    const [info, setInfo] = useState('')
 
     useEffect(() => {
         setIsLoading(true)
@@ -41,9 +43,9 @@ export const TickerData = (() => {
     
         fetchTickerData()
 
-        const interval = setInterval(fetchTickerData, 5000); // Вызов функции каждые 30 секунд
+        const interval = setInterval(fetchTickerData, 5000);
 
-        return () => clearInterval(interval); // Очистка интервала при размонтировании компонента
+        return () => clearInterval(interval);
     
     }, []);
 
@@ -56,7 +58,18 @@ export const TickerData = (() => {
             'ticker': tickerName,
             'CATEGORY': stockStore.catalogCategory[category]
         }
-
+        if (category == 'currency') {
+            fetch(`${stockStore.restUrl}/get-investments-info`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ticker: tickerName})
+            })  .then((response) => response.json())
+                .then((json) => {
+                    setInfo(JSON.parse(json).info)
+                })
+        }
         stockStore.getDataByTickerName(params)
         .then((response) => response.json())
         .then((json) => {
@@ -65,6 +78,7 @@ export const TickerData = (() => {
             setGrowthPerTimeFrame(JSON.parse(json[1]).growPerYearPercent)
             setTickerData(json[2])
             setIsLoading(false)
+            setOutliers(JSON.parse(json[3]))
         })
     }
 
@@ -125,13 +139,23 @@ export const TickerData = (() => {
                         </div>
                        </CardBody>
                    </Card>
-                   <div className="mt-5 flex justify-evenly">
-                       <FinancialChartStock data={candles} chartColor={chartColor}/>
-                       <div>
-                           <SketchPicker
-                               color={chartColor}
-                               onChange={onChartColorChange}
-                           />
+                   <div className="flex flex-col">
+                       <div className="mt-5 flex justify-evenly">
+                           <FinancialChartStock data={candles} chartColor={chartColor}/>
+                           <div>
+                               <SketchPicker
+                                   color={chartColor}
+                                   onChange={onChartColorChange}
+                               />
+                           </div>
+                       </div>
+                       <div className="mt-5 flex">
+                           <FinancialChartStock outliers={outliers} chartColor={'#ff0700'}/>
+                       </div>
+                       <div className="mt-5">
+                           {
+                               info
+                           }
                        </div>
                    </div>
 

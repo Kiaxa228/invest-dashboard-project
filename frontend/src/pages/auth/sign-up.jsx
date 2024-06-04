@@ -8,6 +8,7 @@ import {
 import {Link} from "react-router-dom";
 import {useEffect, useState} from "react";
 import { useNavigate } from "react-router-dom";
+import appStore from '../../stores/AppStore.jsx'
 
 export function SignUp() {
     const [username, setUsername] = useState("")
@@ -33,6 +34,8 @@ export function SignUp() {
         fetch("http://127.0.0.1:8080/auth/register", requestOptions)
             .then(response => {
                 if (response.status === 200) {
+                    appStore.username = username
+                    appStore.isAuthorized = true
                     navigate("/stock")
                 }
             }).catch(error => console.log(error))

@@ -14,11 +14,10 @@ def add_profile(data: ProfileDto, session):
 
     profile.username = data.username
     profile.balance = data.balance
-    profile.investment = data.investment
     profile.dollars = data.dollars
     profile.euro = data.euro
     profile.yuan = data.yuan
-    profile.bitcoin = data.bitcoin
+
 
     session.add(profile)
     session.commit()
@@ -38,11 +37,9 @@ def update_profile(data: ProfileDto, session):
         return False
 
     profile.balance = data.balance
-    profile.investment = data.investment
     profile.dollars = data.dollars
     profile.euro = data.euro
     profile.yuan = data.yuan
-    profile.bitcoin = data.bitcoin
 
     session.commit()
 

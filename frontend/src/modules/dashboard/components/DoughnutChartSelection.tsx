@@ -22,11 +22,10 @@ export default class DoughnutChartSelection extends React.Component<any, any> {
         super(props);
 
         this.data = [
-            { MarketShare: 37, Category: "Cooling", Summary: "Cooling 37%", },
-            { MarketShare: 25, Category: "Residential", Summary: "Residential 25%",  },
-            { MarketShare: 12, Category: "Heating", Summary: "Heating 12%", },
-            { MarketShare: 8, Category: "Lighting", Summary: "Lighting 8%", },
-            { MarketShare: 18, Category: "Other", Summary: "Other 18%", }
+            { MarketShare: 37, Category: "RUB", Summary: "RUB 3700", },
+            { MarketShare: 25, Category: "USD", Summary: "USD 50",  },
+            { MarketShare: 12, Category: "YUAN", Summary: "YUAN 560", },
+            { MarketShare: 8, Category: "EURO", Summary: "EURO 15", },
         ];
         this.state = {
             data: this.data,
@@ -42,14 +41,14 @@ export default class DoughnutChartSelection extends React.Component<any, any> {
         return (
             <div className="container sample">
                 <div className="options vertical">
-                    <span className="legend-title">Global Electricity Demand by Energy Use</span>
+                    <span className="legend-title">Активы</span>
                     <div className="legend">
                         <IgrItemLegend ref={this.onLegendRef} orientation="Horizontal"/>
                     </div>
                 </div>
 
                 <div className="container relative">
-                    <div className="container-overlay" style={{height: 300, width: 300}}>
+                    <div className="container-overlay" style={{height: 300, width: 450}}>
                         <IgrDoughnutChart
                             ref={this.onChartRef}
                             width="100%"

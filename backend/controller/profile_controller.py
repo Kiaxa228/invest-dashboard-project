@@ -4,6 +4,8 @@ from backend.model.db_session import create_session
 from backend.model.profile_controller_models import BuySellFilterValues
 from backend.model.model_dto import ProfileDto
 import requests
+from backend.model.model_dto import RegisterData
+import json
 
 profile_router = APIRouter()
 
@@ -46,19 +48,21 @@ def get_exchange_rate_from_cbr(ticker):
         return f"Ошибка запроса: {e}"
 
 
-@profile_router.get('/get/{username}')
-async def get_profile(username: str):
+@profile_router.post('/get')
+async def get_profil(profile_data: RegisterData):
+    print(profile_data)
     session = create_session()
-    profile = get_profile(username, session)
+    profile = get_profile(profile_data.username, session)
     session.close()
     profile_data = ProfileDto(username=profile.username,
                               balance=profile.balance, dollars=profile.dollars,
                               euro=profile.euro, yuan=profile.yuan)
     if profile is None:
         return Response('Incorrect username', status_code=401)
-    return {'username': username, 'balance': profile_data.balance,
+    print(profile_data)
+    return json.dumps({'username': profile_data.username, 'balance': profile_data.balance,
             'dollars': profile_data.dollars, 'euro': profile_data.euro,
-            'yuan': profile_data.yuan}
+            'yuan': profile_data.yuan})
 
 
 @profile_router.post('/buy')
@@ -116,7 +120,7 @@ async def buy(data: BuySellFilterValues):
 
 
 @profile_router.post('/sell')
-async def buy(data: BuySellFilterValues):
+async def sell(data: BuySellFilterValues):
     session = create_session()
     profile = get_profile(data.username, session)
 

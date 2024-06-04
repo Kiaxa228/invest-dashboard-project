@@ -25,7 +25,7 @@ def global_init():
 
     engine = sa.create_engine(db_source, echo=False)
 
-    Base.metadata.drop_all(engine)
+#     Base.metadata.drop_all(engine)
 
     __factory = orm.sessionmaker(bind=engine)
 

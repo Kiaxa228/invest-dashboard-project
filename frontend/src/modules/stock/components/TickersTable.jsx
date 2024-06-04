@@ -27,12 +27,13 @@ import {LoadingSpinner} from "../../../components/LoadingSpinner.jsx"
 import getSymbolFromCurrency from 'currency-symbol-map'
 import {ChartForTable} from "./ChartForTable.jsx";
 import appStore from "../../../stores/AppStore.jsx";
-
+import { useNavigate } from "react-router-dom";
 
 const TABLE_HEAD = ["Название", "Цена", "За день", "За год", "График"];
 
 
 export const TickersTable =  observer(({category, tickers}) => {
+    const navigate = useNavigate();
 
     const convertToEng = {
         'акций': 'share',
@@ -109,7 +110,7 @@ export const TickersTable =  observer(({category, tickers}) => {
     }
 
     const onTableRowClick = (index) => {
-        document.location.href = appStore.structureURL + `/stock/${convertToEng[category]}/${tickers[index].ticker}`
+        navigate(`/stock/${convertToEng[category]}/${tickers[index].ticker}`)
     }
 
     const getChipsForGrowth = (firstValue, secondValue, currency) => {
